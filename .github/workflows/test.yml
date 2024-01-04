@@ -1,0 +1,57 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    name: Build test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: 🛰️ Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+
+      - name: 🛩️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🚜 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🛵 Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 🚁 Cache pnpm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: 🛸 Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 🛺 Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          eslint_extensions: ts
+          prettier: true
+          prettier_extensions: ts
+
+      - name: 🪂 Lint
+        run: pnpm lint
+
+      - name: 🚀 Build
+        run: pnpm build
+        env:
+          CI: true
+          NODE_ENV: production

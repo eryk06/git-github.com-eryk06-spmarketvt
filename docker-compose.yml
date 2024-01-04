@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx/templates:/etc/nginx/templates
+      - ./nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+    ports:
+      - 80:80
+    networks:
+      - spmarketvt-network
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      TZ: 'Asia/Ho_Chi_Minh'
+      PGTZ: 'Asia/Ho_Chi_Minh'
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - docker-nest-postgres:/var/lib/postgresql/data
+    networks:
+      - spmarketvt-network
+
+  nestjs-api:
+    container_name: nestjs-api
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    ports:
+      - ${PORT}:${PORT}
+    command: pnpm dev
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - spmarketvt-network
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redis:/data
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+    networks:
+      - spmarketvt-network
+
+  # regis-adminer:
+  #   image: patrikx3/p3x-redis-ui:latest
+  #   container_name: regis-adminer
+  #   ports:
+  #     - 7843:7843
+  #   volumes:
+  #     - /home/user/p3x-redis-ui-settings:/settings
+  #   depends_on:
+  #     - redis
+  #   networks:
+  #     - spmarketvt-network
+
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - ${ADMINER_PORT}:${ADMINER_PORT}
+    depends_on:
+      - postgres
+    environment:
+      ADMINER_DESIGN: dracula
+      ADMINER_PLUGINS: tables-filter
+    networks:
+      - spmarketvt-network
+
+networks:
+  spmarketvt-network:
+    driver: bridge
+    name: spmarketvt-network
+    external: true
+
+volumes:
+  nestjs-api:
+    name: nestjs-api
+    driver: local
+  docker-nest-postgres:
+    name: docker-nest-postgres
+    driver: local
+  adminer:
+    name: adminer
+    driver: local
+  redis:
+    name: redis
+    driver: local
+  # regis-adminer:
+  #   name: regis-adminer
+  #   driver: local

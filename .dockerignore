@@ -1,0 +1,14 @@
+Dockerfile
+.dockerignore
+node_modules
+dist
+.vsconfig
+.husky
+.commitlintrc.js
+.pnpm-store
+.github
+
+# git
+.git
+.gitattributes
+.gitignore

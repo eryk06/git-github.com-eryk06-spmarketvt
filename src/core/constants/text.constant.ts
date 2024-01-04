@@ -1,0 +1,20 @@
+// ! HTTP
+export const HTTP_BAD_REQUEST = 'Bad request'; // 400
+export const HTTP_NOT_FOUND = 'Not found'; // 404
+export const HTTP_UNAUTHORIZED = 'Unauthorized'; // 401
+export const HTTP_FORBIDDEN = 'Forbidden'; // 403
+export const HTTP_INTERNAL_SERVER_ERROR = 'Internal server error'; // 500
+
+export const HTTP_ERROR_SUFFIX = ' failed';
+export const HTTP_SUCCESS_SUFFIX = ' succeed';
+export const HTTP_DEFAULT_TEXT = 'request';
+export const HTTP_DEFAULT_ERROR_TEXT = HTTP_DEFAULT_TEXT + HTTP_ERROR_SUFFIX;
+export const HTTP_DEFAULT_SUCCESS_TEXT =
+  HTTP_DEFAULT_TEXT + HTTP_SUCCESS_SUFFIX;
+
+export const HTTP_ANONYMOUS_TEXT = 'Who are U?';
+export const HTTP_UNAUTHORIZED_TEXT_DEFAULT = 'Unauthorized';
+export const HTTP_PARAMS_PERMISSION_ERROR_DEFAULT = 'Permission denied';
+export const HTTP_BAD_REQUEST_TEXT_DEFAULT = 'Unknown error';
+
+export const VALIDATION_ERROR_DEFAULT = 'Invalid params';

@@ -1,0 +1,17 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.tslint": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "cSpell.words": [
+    "nestjs",
+    "typeorm",
+    "postgres",
+    "docker",
+    "docker-compose",
+    "cloudinary",
+    "streamifier",
+    "setnx"
+  ]
+}

@@ -1,0 +1,16 @@
+upstream backend {
+  server localhost:4000;
+}
+
+server {
+  # Docker DNS
+  resolver 127.0.0.11;
+
+  location / {
+    proxy_pass http://backend;
+  }
+
+  location /robots.txt {
+    return 200 'User-agent: *\nDisallow: /';
+  }
+}

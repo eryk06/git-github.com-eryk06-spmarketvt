@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "email": {
+      "notValid": "Email is not valid",
+      "required": "Email is required"
+    },
+    "password": {
+      "required": "Password is required",
+      "minLength": "Password must be at least 6 characters long"
+    }
+  }
+}
