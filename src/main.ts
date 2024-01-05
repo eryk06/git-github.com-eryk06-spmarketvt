@@ -22,7 +22,6 @@ import {
   ErrorInterceptor,
   FormatResponseInterceptor,
   HttpExceptionFilter,
-  LogsInterceptor,
   ResponseTransformInterceptor,
   TimeoutInterceptor,
   TransformInterceptor,
@@ -69,7 +68,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
     new FormatResponseInterceptor(),
-    new LogsInterceptor(),
     new ErrorInterceptor(),
     new LoggerErrorInterceptor(),
     new FormatResponseInterceptor(),
@@ -113,8 +111,8 @@ async function bootstrap() {
 bootstrap()
   .then(() =>
     logger.success(
-      `🎭 🪺  Application is listening on port ${PORT} | ${NODE_ENV} 🥸  🍃 | ${dayjs().format(
-        'YYYY-MM-DD HH:mm:ss'
+      `Application is listening on port ${PORT} | ${NODE_ENV} 🧪 🧴 | ${dayjs().format(
+        'YYYY-MM-DD HH:mm:ss 🪼  🦠'
       )}`
     )
   )
