@@ -11,10 +11,17 @@ export class ApiKeyEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   key: string;
 
-  @Column({ type: 'varchar', length: 255, default: true })
+  @Column({ type: 'varchar', default: true })
   status: boolean;
 
-  @Column({ type: 'varchar', length: 255, enum: ['0000', '1111', '2222'] })
+  @Column({
+    type: 'varchar',
+    transformer: {
+      to: (value: string[]) => JSON.stringify(value),
+      from: (value: string) => JSON.parse(value)
+    },
+    enum: ['0000', '1111', '2222']
+  })
   pesmissions: [string];
 
   constructor(partial: Partial<ApiKeyEntity>) {

@@ -24,23 +24,23 @@ import { SearchModule } from '../configs/search';
 import { PostgresModule } from '../configs/databases/postgres';
 import { AppController } from './app.controller';
 import { HealthModule } from '../health';
-import { ClsMiddleware, ClsModule } from 'nestjs-cls';
-import { Request } from 'express';
+import { ClsModule } from 'nestjs-cls';
 import { ChatModule } from '@/modules';
 import { ApiKeyEntity, ApiKeyService, KeyModule } from '../modules/key';
 import { ApiKeyMiddleware } from '../core/middlewares/api-key.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PermissionMiddleware } from '../core/middlewares/permission.middleware';
 
 @Module({
   imports: [
-    // TypeOrmModule.forFeature([ApiKeyEntity]),
+    TypeOrmModule.forFeature([ApiKeyEntity]),
     ClsModule.forRoot({
       global: true,
       middleware: {
         mount: true,
         generateId: true,
-        idGenerator(req: Request) {
-          return req.headers['x-request-uid'] as string;
+        idGenerator(req: any) {
+          return req.headers['x-request-uid'];
         }
       }
     }),
@@ -69,8 +69,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     KeyModule,
     ChatModule
   ],
-  controllers: [AppController]
-  // providers: [ApiKeyService]
+  controllers: [AppController],
+  providers: [ApiKeyService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -78,13 +78,17 @@ export class AppModule implements NestModule {
       cookie: true,
       httpOnly: true
     });
+    PermissionMiddleware.configure({
+      permission: '0000'
+    });
     consumer
       .apply(
         LoggerMiddleware,
         OriginMiddleware,
-        CorsMiddleware
+        CorsMiddleware,
+        ApiKeyMiddleware
+        // PermissionMiddleware
         // BotMiddleware
-        // ApiKeyMiddleware
         // CsurfMiddleware
       )
       .forRoutes('*');
