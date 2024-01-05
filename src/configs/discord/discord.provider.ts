@@ -16,7 +16,8 @@ export class DiscordConfigService implements DiscordOptionsFactory {
           GatewayIntentBits.Guilds,
           GatewayIntentBits.GuildMessages,
           GatewayIntentBits.MessageContent,
-          GatewayIntentBits.GuildMembers
+          GatewayIntentBits.GuildMembers,
+          GatewayIntentBits.DirectMessages
         ]
       },
       autoLogin: true

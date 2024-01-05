@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseEntity } from './base.entity';
-import { PaginationDto } from './base.dto';
+import { PaginationDTO } from './base.dto';
 import { getQueryBuilder } from '@/core/helpers';
 
 export abstract class BaseService<Entity extends BaseEntity> {
@@ -24,7 +24,7 @@ export abstract class BaseService<Entity extends BaseEntity> {
   }
 
   async getAllWithPagination(
-    query: PaginationDto,
+    query: PaginationDTO,
     where?: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
     order?: FindOptionsOrder<Entity>,
     ...relations: string[]

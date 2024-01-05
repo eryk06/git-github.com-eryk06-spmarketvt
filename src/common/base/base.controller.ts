@@ -2,7 +2,7 @@
 import { Body, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { BaseEntity } from './base.entity';
 import { BaseService } from './base.service';
-import { PaginationDto } from './base.dto';
+import { PaginationDTO } from './base.dto';
 
 export function BaseController<Entity extends BaseEntity>() {
   abstract class Controller {
@@ -16,7 +16,7 @@ export function BaseController<Entity extends BaseEntity>() {
     }
 
     @Get('all')
-    getAll(@Query() query: PaginationDto): Promise<[Entity[], number]> {
+    getAll(@Query() query: PaginationDTO): Promise<[Entity[], number]> {
       return this.service.getAllWithPagination(
         query,
         {},

@@ -25,6 +25,7 @@ import {
   LogsInterceptor,
   ResponseTransformInterceptor,
   TimeoutInterceptor,
+  TransformInterceptor,
   TypeormExceptionFilter,
   ValidationPipe
 } from './core';
@@ -72,7 +73,8 @@ async function bootstrap() {
     new ErrorInterceptor(),
     new LoggerErrorInterceptor(),
     new FormatResponseInterceptor(),
-    new ResponseTransformInterceptor()
+    new ResponseTransformInterceptor(),
+    new TransformInterceptor()
   );
 
   app.useGlobalFilters(new HttpExceptionFilter(), new TypeormExceptionFilter());
@@ -111,7 +113,7 @@ async function bootstrap() {
 bootstrap()
   .then(() =>
     logger.success(
-      `😴 🪺  Application is listening on port ${PORT} | ${NODE_ENV} 🥸  🍃 | ${dayjs().format(
+      `🎭 🪺  Application is listening on port ${PORT} | ${NODE_ENV} 🥸  🍃 | ${dayjs().format(
         'YYYY-MM-DD HH:mm:ss'
       )}`
     )

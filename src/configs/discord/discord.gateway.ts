@@ -17,7 +17,16 @@ export class DiscordGateway {
   ) {}
 
   @Once('ready')
-  onReady(): void {
+  async onReady(): Promise<void> {
     logger.info(`Logged in as ${this.client.user.tag}!`);
+  }
+
+  @On('message')
+  async onMessage(message: Message): Promise<void> {
+    if (message.author.bot) return;
+
+    if (message.content === 'hello') {
+      await message.reply('Can i help you?');
+    }
   }
 }

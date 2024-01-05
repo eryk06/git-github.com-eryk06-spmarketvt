@@ -13,10 +13,15 @@ import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
 import { Request, Response } from 'express';
 import { GoogleGuard, LocalAuthGuard } from '../guards';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { SessionSerializer } from '../serializer';
+import { HttpBadRequestError } from '../../core';
 
 @Controller('auth')
 export class AuthController {
-  constructor(public readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly sessionSerializer: SessionSerializer
+  ) {}
 
   @Post('register')
   @HttpCode(200)
@@ -31,7 +36,17 @@ export class AuthController {
     @Body() loginDTO: LoginDTO,
     @Res({ passthrough: true }) response: Response
   ): Promise<any> {
-    return await this.authService.login(loginDTO, response);
+    const user = await this.authService.login(loginDTO, response);
+
+    this.sessionSerializer.serializeUser(user, (error, serializedUser) => {
+      if (error) {
+        throw new HttpBadRequestError(error.message);
+      } else {
+        response.locals.user = serializedUser;
+      }
+    });
+
+    return user;
   }
 
   @Get('google')
