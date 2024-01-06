@@ -6,8 +6,6 @@ import { ApiKeyService } from '../../modules';
 export class PermissionMiddleware implements NestMiddleware {
   private static options: any;
 
-  constructor(private readonly apiKeyService: ApiKeyService) {}
-
   public static configure(options: any) {
     this.options = options;
   }

@@ -3,7 +3,9 @@ import {
   POSTGRES_HOST,
   POSTGRES_PASSWORD,
   POSTGRES_PORT,
-  POSTGRES_USER
+  POSTGRES_USER,
+  REDIS_HOST,
+  REDIS_PORT
 } from '@/configs/environments';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
@@ -24,6 +26,14 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       autoLoadEntities: true,
       namingStrategy: new SnakeNamingStrategy(),
       subscribers: ['dist/**/*.subscriber{.ts,.js}'],
+      migrations: ['dist/database/migrations/*{.ts,.js}'],
+      cache: {
+        type: 'ioredis',
+        options: {
+          host: REDIS_HOST,
+          port: REDIS_PORT ? +REDIS_PORT : 6379
+        }
+      },
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
       verboseRetryLog: true,

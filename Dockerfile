@@ -1,19 +1,23 @@
-# Base image for both development and production stages
+# syntax=docker/dockerfile:1.2
 FROM node:lts-alpine as base
 
 WORKDIR /app
 
 # Install build dependencies
-RUN apk --no-cache add --virtual .build-deps make g++
+RUN --mount=type=cache,target=/apk-cache apk --no-cache add --virtual .build-deps make g++
 
 # Install pnpm globally
-RUN npm install -g pnpm
+RUN npm install pnpm pm2 -g
+
+# Set PM2_PUBLIC_KEY and PM2_SECRET_KEY environment variables
+ENV PM2_PUBLIC_KEY 5dkhot0kvndntys
+ENV PM2_SECRET_KEY k9luueq6w355k4g
 
 # Copy only package files first to leverage Docker caching
 COPY --chown=node:node package*.json pnpm-lock.yaml ./
 
 # Install dependencies with pnpm using `pnpm ci`
-RUN pnpm install --force --frozen-lockfile
+RUN --mount=type=cache,target=/app/node_modules pnpm install --force --frozen-lockfile
 
 # Development stage
 FROM base as development
@@ -22,7 +26,7 @@ FROM base as development
 COPY --chown=node:node . .
 
 # Cleanup unnecessary files after the build
-RUN rm -rf /app/node_modules/.cache
+RUN rm -rf /app/node_modules/.pnpm-store
 
 # Builder stage
 FROM development as builder
@@ -36,17 +40,18 @@ RUN pnpm run build
 # Production stage
 FROM base as production
 
-# Copy necessary files from the builder stage
-COPY --chown=node:node --from=builder /app/node_modules ./node_modules
-COPY --chown=node:node --from=builder /app/dist ./dist
-
-# Install only production dependencies
-RUN pnpm install --prod \
-    && pnpm prune --prod \
-    && rm -rf /app/.pnpm-store /app/.pnpm
-
 # Set user to non-root
 USER node
+
+# Copy necessary files from the builder stage
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /app/dist ./dist
+COPY --from=builder --chown=node:node /app/ecosystem.config.js .
+
+# Install only production dependencies
+RUN pnpm install --prod --ignore-scripts --prefer-offline \
+    && pnpm prune --prod \
+    && rm -rf /app/.pnpm-store /app/.pnpm
 
 # Labels and expose are fine as they are
 LABEL org.opencontainers.image.title="This is spmarketvt" \
@@ -54,5 +59,7 @@ LABEL org.opencontainers.image.title="This is spmarketvt" \
       org.opencontainers.image.version="1.0" \
       org.opencontainers.image.authors="eryk" \
       org.opencontainers.image.licenses="MIT"
+
+CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
 
 EXPOSE 4000
