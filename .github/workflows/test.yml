@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
 
     steps:
       - name: 🛰️ Cancel Previous Runs
@@ -41,14 +41,6 @@ jobs:
 
       - name: 🛸 Install dependencies
         run: pnpm install --no-frozen-lockfile
-
-      - name: 🛺 Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          eslint_extensions: ts
-          prettier: true
-          prettier_extensions: ts
 
       - name: 🪂 Lint
         run: pnpm lint

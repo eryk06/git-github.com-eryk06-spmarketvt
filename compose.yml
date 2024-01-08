@@ -18,10 +18,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 1G
+          memory: 2G
         reservations:
-          cpus: '0.2'
-          memory: 256M
+          cpus: '0.5'
+          memory: 1G
     networks:
       - spmarketvt-network
 
@@ -97,17 +97,17 @@ services:
       timeout: 10s
       retries: 5
 
-  # regis-adminer:
-  #   image: patrikx3/p3x-redis-ui:latest
-  #   container_name: regis-adminer
-  #   ports:
-  #     - 7843:7843
-  #   volumes:
-  #     - /home/user/p3x-redis-ui-settings:/settings
-  #   depends_on:
-  #     - redis
-  #   networks:
-  #     - spmarketvt-network
+  regis-adminer:
+    image: patrikx3/p3x-redis-ui:latest
+    container_name: regis-adminer
+    ports:
+      - 7843:7843
+    volumes:
+      - /home/user/p3x-redis-ui-settings:/settings
+    depends_on:
+      - redis
+    networks:
+      - spmarketvt-network
 
   adminer:
     container_name: adminer
@@ -145,7 +145,6 @@ volumes:
   redis:
     name: redis
     driver: local
-
-  # regis-adminer:
-  #   name: regis-adminer
-  #   driver: local
+  regis-adminer:
+    name: regis-adminer
+    driver: local
