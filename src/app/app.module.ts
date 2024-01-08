@@ -5,6 +5,7 @@ import {
   CloudinaryModule,
   DiscordModule,
   FirebaseModule,
+  HealthModule,
   LoggerModule,
   MailModule,
   RedisModule,
@@ -23,7 +24,6 @@ import { QueueModule } from '../configs/queue';
 import { SearchModule } from '../configs/search';
 import { PostgresModule } from '../configs/databases/postgres';
 import { AppController } from './app.controller';
-import { HealthModule } from '../health';
 import { ClsModule } from 'nestjs-cls';
 import { ChatModule } from '@/modules';
 import { ApiKeyEntity, ApiKeyService, KeyModule } from '../modules/key';

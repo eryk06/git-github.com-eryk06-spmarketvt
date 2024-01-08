@@ -11,3 +11,4 @@ export * from './throttler';
 export * from './environments';
 export * from './static';
 export * from './discord';
+export * from './health';

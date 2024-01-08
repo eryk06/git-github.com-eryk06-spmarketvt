@@ -3,6 +3,7 @@ import { createLogger } from '@/core';
 import { UserEntity } from '@/modules';
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerTheme } from 'swagger-themes';
 
 const logger = createLogger({
   scope: 'Swagger',
@@ -13,15 +14,19 @@ export function useSwagger(app: INestApplication) {
   const port = PORT ? +PORT : 4000;
   const path = 'docs';
   const config = new DocumentBuilder()
-    .setTitle('NestJS Example')
-    .setDescription('NestJS Example Documentation')
+    .setTitle('Api Shop')
+    .setDescription('Api Shop Documentation')
     .setVersion('1.0.0')
     .addBearerAuth()
+    .addServer(`http://localhost:${port}/api/v1`)
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     extraModels
   });
-  SwaggerModule.setup(path, app, document, {
+  const theme = new SwaggerTheme('v3');
+  const options = {
+    explorer: true,
+    customCss: theme.getBuffer('dark'),
     swaggerOptions: {
       tagsSorter: 'alpha',
       operationsSorter: (
@@ -48,7 +53,8 @@ export function useSwagger(app: INestApplication) {
         return result;
       }
     }
-  });
+  };
+  SwaggerModule.setup(path, app, document, options);
   logger.log(
     `Your documentation is running on http://localhost:${port}/${path}`
   );

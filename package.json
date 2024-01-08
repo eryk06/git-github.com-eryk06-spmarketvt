@@ -100,6 +100,7 @@
     "socket.io": "^4.7.2",
     "speakeasy": "^2.0.0",
     "streamifier": "^0.1.1",
+    "swagger-themes": "^1.2.30",
     "typeorm": "^0.3.17",
     "typeorm-transactional": "^0.5.0",
     "uid": "^2.0.2",

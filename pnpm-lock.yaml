@@ -230,6 +230,9 @@ dependencies:
   streamifier:
     specifier: ^0.1.1
     version: 0.1.1
+  swagger-themes:
+    specifier: ^1.2.30
+    version: 1.2.30
   typeorm:
     specifier: ^0.3.17
     version: 0.3.17(ioredis@5.3.2)(pg@8.11.3)(redis@4.6.12)(ts-node@10.9.2)
@@ -12450,6 +12453,10 @@ packages:
   /svg-pan-zoom@3.6.1:
     resolution: {integrity: sha512-JaKkGHHfGvRrcMPdJWkssLBeWqM+Isg/a09H7kgNNajT1cX5AztDTNs+C8UzpCxjCTRrG34WbquwaovZbmSk9g==}
     dev: true
+
+  /swagger-themes@1.2.30:
+    resolution: {integrity: sha512-OOk1gMfu50knSui4ncnOGtQEw8snOkMCLiOWVLqO0IT1SNYJC83MBWtRwMWSYmaC+m51XdNBlZ030T4t6viNvg==}
+    dev: false
 
   /swagger-ui-dist@5.10.3:
     resolution: {integrity: sha512-fu3aozjxFWsmcO1vyt1q1Ji2kN7KlTd1vHy27E9WgPyXo9nrEzhQPqgxaAjbMsOmb8XFKNGo4Sa3Q+84Fh+pFw==}
