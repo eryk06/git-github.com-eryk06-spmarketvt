@@ -29,6 +29,7 @@ export function useSwagger(app: INestApplication) {
     customCss: theme.getBuffer('dark'),
     swaggerOptions: {
       tagsSorter: 'alpha',
+      persistAuthorization: true,
       operationsSorter: (
         a: { get: (arg0: string) => string },
         b: { get: (arg0: string) => string }

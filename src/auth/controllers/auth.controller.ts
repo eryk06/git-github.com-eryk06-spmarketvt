@@ -2,12 +2,10 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
   Post,
   Req,
   Res,
-  UseGuards,
-  UsePipes
+  UseGuards
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
@@ -16,7 +14,6 @@ import { GoogleGuard, LocalAuthGuard } from '../guards';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { SessionSerializer } from '../serializer';
 import { HttpBadRequestError } from '../../core';
-import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('auth')
 export class AuthController {

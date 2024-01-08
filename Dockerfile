@@ -46,6 +46,7 @@ USER node
 # Copy necessary files from the builder stage
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/dist ./dist
+COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/ecosystem.config.js .
 COPY --from=builder --chown=node:node /app/.env .
 
@@ -64,7 +65,7 @@ COPY nginx/configuration/custom_proxy_setting.conf /etc/nginx/conf.d/custom_prox
 # Labels and expose are fine as they are
 LABEL org.opencontainers.image.title="This is spmarketvt" \
       org.opencontainers.image.description="Spmarketvt" \
-      org.opencontainers.image.version="1.0" \
+      org.opencontainers.image.version="1.0.0" \
       org.opencontainers.image.authors="eryk" \
       org.opencontainers.image.licenses="MIT"
 

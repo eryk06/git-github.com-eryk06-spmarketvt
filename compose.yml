@@ -97,9 +97,9 @@ services:
       timeout: 10s
       retries: 5
 
-  regis-adminer:
+  redis-adminer:
     image: patrikx3/p3x-redis-ui:latest
-    container_name: regis-adminer
+    container_name: redis-adminer
     ports:
       - 7843:7843
     volumes:
@@ -145,6 +145,9 @@ volumes:
   redis:
     name: redis
     driver: local
-  regis-adminer:
-    name: regis-adminer
+  runner:
+    name: runner
+    driver: local
+  redis-adminer:
+    name: redis-adminer
     driver: local

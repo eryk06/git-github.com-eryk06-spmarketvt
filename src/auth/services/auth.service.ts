@@ -57,7 +57,7 @@ export class AuthService {
         });
 
         if (!publicKeyString) {
-          throw new HttpInternalServerError('Create token failed');
+          throw new HttpBadRequestError('Create token failed');
         }
 
         const publicKeyObject = crypto.createPublicKey(publicKeyString);
@@ -220,7 +220,7 @@ export class AuthService {
       // const delKeyStore = await this.keyService.removeKeyByUid(keyStore.uuid);
       // console.log(delKeyStore);
 
-      const sub = 'user.uid';
+      const sub = 'user.uuid';
       await this.redisService.delRFToken(sub);
       await this.redisService.delAccessToken(sub);
       const result = { message: 'Logout successfully' };

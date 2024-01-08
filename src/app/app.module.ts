@@ -30,8 +30,6 @@ import { ApiKeyEntity, ApiKeyService, KeyModule } from '../modules/key';
 import { ApiKeyMiddleware } from '../core/middlewares/api-key.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionMiddleware } from '../core/middlewares/permission.middleware';
-import { APP_PIPE } from '@nestjs/core';
-import { ZodValidationPipe } from 'nestjs-zod';
 
 @Module({
   imports: [
@@ -39,11 +37,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
     ClsModule.forRoot({
       global: true,
       middleware: {
-        mount: true,
-        generateId: true,
-        idGenerator(req: any) {
-          return req.headers['x-request-uid'];
-        }
+        mount: true
       }
     }),
 
@@ -72,13 +66,7 @@ import { ZodValidationPipe } from 'nestjs-zod';
     ChatModule
   ],
   controllers: [AppController],
-  providers: [
-    ApiKeyService,
-    {
-      provide: APP_PIPE,
-      useClass: ZodValidationPipe
-    }
-  ]
+  providers: [ApiKeyService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

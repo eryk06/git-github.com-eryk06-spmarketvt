@@ -19,8 +19,6 @@ import { middleware as expressCtx } from 'express-ctx';
 import helmet from 'helmet';
 import logger from './core/utils/logger';
 import {
-  ErrorInterceptor,
-  FormatResponseInterceptor,
   HttpExceptionFilter,
   ResponseTransformInterceptor,
   TimeoutInterceptor,
@@ -67,10 +65,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
-    new FormatResponseInterceptor(),
-    new ErrorInterceptor(),
     new LoggerErrorInterceptor(),
-    new FormatResponseInterceptor(),
     new ResponseTransformInterceptor(),
     new TransformInterceptor()
   );
