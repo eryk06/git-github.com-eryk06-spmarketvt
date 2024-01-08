@@ -1,27 +1,29 @@
 version: '3.8'
 
 services:
-  # runner:
-  #   image: myoung34/github-runner:latest
-  #   restart: always
-  #   environment:
-  #     RUNNER_SCOPE: repo
-  #     RUNNER_NAME_PREFIX: spmarketvt
-  #     LABELS: some-label
-  #     REPO_URL: https://github.com/eryk06/spmarketvt.git
-  #     EPHEMERAL: 1
-  #     ACCESS_TOKEN: ${ACCESS_TOKEN}
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   deploy:
-  #     replicas: 3
-  #     resources:
-  #       limits:
-  #         cpus: '1'
-  #         memory: 1G
-  #       reservations:
-  #         cpus: '0.2'
-  #         memory: 256M
+  runner:
+    image: myoung34/github-runner:latest
+    restart: always
+    environment:
+      RUNNER_SCOPE: repo
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      REPO_URL: https://github.com/eryk06/spmarketvt
+      RUNNER_NAME_PREFIX: spmarketvt
+      LABELS: linux,x64,gpu
+      EPHEMERAL: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+    networks:
+      - spmarketvt-network
 
   nginx:
     image: nginx:alpine
@@ -33,6 +35,8 @@ services:
       - 80:80
     networks:
       - spmarketvt-network
+    depends_on:
+      - backend
 
   postgres:
     container_name: postgres
@@ -49,8 +53,13 @@ services:
       - docker-nest-postgres:/var/lib/postgresql/data
     networks:
       - spmarketvt-network
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', '${POSTGRES_USER}']
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-  nestjs-api:
+  backend:
     container_name: nestjs-api
     build:
       dockerfile: Dockerfile
@@ -69,11 +78,6 @@ services:
       - .:/app
     networks:
       - spmarketvt-network
-    healthcheck:
-      test: ['CMD', 'pg_isready']
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   redis:
     container_name: redis
@@ -129,8 +133,8 @@ networks:
     external: true
 
 volumes:
-  nestjs-api:
-    name: nestjs-api
+  backend:
+    name: backend
     driver: local
   docker-nest-postgres:
     name: docker-nest-postgres

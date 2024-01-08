@@ -47,11 +47,19 @@ USER node
 COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/dist ./dist
 COPY --from=builder --chown=node:node /app/ecosystem.config.js .
+COPY --from=builder --chown=node:node /app/.env .
 
 # Install only production dependencies
 RUN pnpm install --prod --ignore-scripts --prefer-offline \
     && pnpm prune --prod \
     && rm -rf /app/.pnpm-store /app/.pnpm
+
+# Install Nginx
+RUN --mount=type=cache,target=/apk-cache apk --no-cache add nginx
+
+# Configure Nginx
+COPY nginx/templates/default.conf.template /etc/nginx/templates/default.conf.template
+COPY nginx/configuration/custom_proxy_setting.conf /etc/nginx/conf.d/custom_proxy_setting.conf
 
 # Labels and expose are fine as they are
 LABEL org.opencontainers.image.title="This is spmarketvt" \
@@ -60,6 +68,8 @@ LABEL org.opencontainers.image.title="This is spmarketvt" \
       org.opencontainers.image.authors="eryk" \
       org.opencontainers.image.licenses="MIT"
 
-CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
+# Expose ports
+EXPOSE 4000 80
 
-EXPOSE 4000
+# Start Nginx and your Node.js app with PM2
+CMD ["sh", "-c", "nginx -g 'daemon off;' & pm2-runtime ecosystem.config.js --env production"]

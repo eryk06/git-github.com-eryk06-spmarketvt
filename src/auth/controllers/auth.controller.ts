@@ -6,7 +6,8 @@ import {
   Post,
   Req,
   Res,
-  UseGuards
+  UseGuards,
+  UsePipes
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
@@ -15,6 +16,7 @@ import { GoogleGuard, LocalAuthGuard } from '../guards';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { SessionSerializer } from '../serializer';
 import { HttpBadRequestError } from '../../core';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Controller('auth')
 export class AuthController {
@@ -24,13 +26,11 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  @HttpCode(200)
   async register(@Body() registerDTO: RegisterDTO): Promise<any> {
     return await this.authService.register(registerDTO);
   }
 
   @Post('login')
-  @HttpCode(200)
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   async login(
     @Body() loginDTO: LoginDTO,
@@ -50,7 +50,6 @@ export class AuthController {
   }
 
   @Get('google')
-  @HttpCode(200)
   @UseGuards(GoogleGuard)
   async loginGoogle(@Req() request: Request): Promise<any> {
     return await this.authService.loginGoogle(request);
@@ -69,13 +68,11 @@ export class AuthController {
   // }
 
   @Get('logout')
-  @HttpCode(200)
   async logout(res: Response): Promise<any> {
     return await this.authService.logout();
   }
 
   @Get('csrf')
-  @HttpCode(200)
   async getCSRFToken(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
