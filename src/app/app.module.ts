@@ -3,6 +3,7 @@ import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../modules/user/user.module';
 import {
   CloudinaryModule,
+  ConfigModule,
   DiscordModule,
   FirebaseModule,
   HealthModule,
@@ -45,7 +46,8 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
       dest: './upload'
     }),
 
-    // config
+    // CONFIGS
+    ConfigModule,
     PostgresModule,
     RedisModule,
     QueueModule,
@@ -59,7 +61,7 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
     FirebaseModule,
     DiscordModule,
 
-    // modules
+    // MODULES
     AuthModule,
     UserModule,
     KeyModule,

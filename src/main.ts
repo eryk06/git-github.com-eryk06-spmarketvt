@@ -30,6 +30,7 @@ import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { useSwagger } from './app';
 import { join } from 'path';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -41,8 +42,7 @@ async function bootstrap() {
       : {
           snapshot: true,
           bufferLogs: true,
-          forceCloseConnections: true,
-          rawBody: true
+          forceCloseConnections: true
         }
   );
 
@@ -93,12 +93,15 @@ async function bootstrap() {
   app.use(morgan('dev'));
   app.enableVersioning();
   app.use(expressCtx);
-  app.use(bodyParser.json({ limit: '20mb' }));
+  app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ extended: true }));
 
   useSwagger(app);
 
   app.useGlobalPipes(new ValidationPipe());
+
+  const configService = app.get(ConfigService);
+  const PORT = configService.get<number>('PORT');
 
   return await app.listen(PORT);
 }

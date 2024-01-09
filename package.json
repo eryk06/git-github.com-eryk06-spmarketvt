@@ -11,8 +11,9 @@
     "start": "cross-env NODE_ENV=production nest start",
     "dev": "cross-env NODE_ENV=development nest start --watch",
     "doc": "compodoc -s",
-    "migration:generate": "pnpm typeorm migration:generate -d ../../src/configs/databases/postgres/postgres.provider.ts",
-    "migration:create": "pnpm typeorm migration:create -d ../../src/configs/databases/postgres/postgres.provider.ts",
+    "migration:generate": "pnpm typeorm migration:generate",
+    "migration:create": "pnpm typeorm migration:create",
+    "migration:run": "pnpm typeorm migration:run",
     "migration:revert": "pnpm typeorm migration:revert",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "prod": "cross-env NODE_ENV=production node dist/main",
@@ -112,6 +113,8 @@
     "@nestjs/cli": "^10.2.1",
     "@nestjs/schematics": "^10.0.3",
     "@nestjs/testing": "^10.3.0",
+    "@rollup/plugin-run": "^3.0.2",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/bcryptjs": "^2.4.6",
     "@types/body-parser": "^1.19.5",
     "@types/compression": "^1.7.5",
@@ -145,7 +148,7 @@
     "lint-staged": "^15.2.0",
     "morgan": "^1.10.0",
     "prettier": "^3.1.1",
-    "run-script-webpack-plugin": "^0.2.0",
+    "rollup": "^4.9.4",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
@@ -153,10 +156,8 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "typescript": "^5.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-node-externals": "^3.0.0"
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -4,16 +4,19 @@ import {
 } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { REDIS_HOST, REDIS_PORT } from '../environments';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class QueueConfigService implements SharedBullConfigurationFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createSharedConfiguration():
     | BullRootModuleOptions
     | Promise<BullRootModuleOptions> {
     return {
       redis: {
-        host: REDIS_HOST,
-        port: REDIS_PORT ? +REDIS_PORT : 6379
+        host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
+        port: this.configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379
       },
       prefix: 'queue',
       defaultJobOptions: {

@@ -1,9 +1,9 @@
-import { JwtPayload } from '@/configs';
 import { UserService } from '@/modules';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { compareHash } from '@/core';
+import { JwtPayload } from '../../interfaces';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

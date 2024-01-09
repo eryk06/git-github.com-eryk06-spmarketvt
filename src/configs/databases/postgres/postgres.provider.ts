@@ -1,4 +1,5 @@
 import {
+  NODE_ENV,
   POSTGRES_DB,
   POSTGRES_HOST,
   POSTGRES_PASSWORD,
@@ -10,19 +11,28 @@ import {
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from './strategy';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PostgresConfigService implements TypeOrmOptionsFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
-    return {
+    const isDev = this.configService.get<string>('NODE_ENV') === 'development';
+
+    const options: TypeOrmModuleOptions = {
       type: 'postgres',
-      host: POSTGRES_HOST,
-      port: POSTGRES_PORT ? +POSTGRES_PORT : 5432,
-      username: POSTGRES_USER,
-      password: POSTGRES_PASSWORD,
-      database: POSTGRES_DB,
+      host: this.configService.get<string>('POSTGRES_HOST') || POSTGRES_HOST,
+      port: this.configService.get<number>('POSTGRES_PORT')
+        ? +POSTGRES_PORT
+        : 5432,
+      username:
+        this.configService.get<string>('POSTGRES_USER') || POSTGRES_USER,
+      password:
+        this.configService.get<string>('POSTGRES_PASSWORD') ||
+        POSTGRES_PASSWORD,
+      database: this.configService.get<string>('POSTGRES_DB') || POSTGRES_DB,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
       autoLoadEntities: true,
       namingStrategy: new SnakeNamingStrategy(),
       subscribers: ['dist/**/*.subscriber{.ts,.js}'],
@@ -30,24 +40,24 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       cache: {
         type: 'ioredis',
         options: {
-          host: REDIS_HOST,
-          port: REDIS_PORT ? +REDIS_PORT : 6379
+          host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
+          port: this.configService.get<number>('REDIS_PORT')
+            ? +REDIS_PORT
+            : 6379
         }
       },
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
-      verboseRetryLog: true,
       nativeDriver: true,
-      connectTimeoutMS: 20000,
-      retryDelay: 300,
-      extra: {
-        poolSize: 10,
-        max: 10,
-        connectionLimit: 10,
-        connectionTimeoutMillis: 2000,
-        query_timeout: 1000,
-        statement_timeout: 1000
-      }
+      poolSize: 100,
+      verboseRetryLog: true
     };
+
+    // Use synchronize only in development environments
+    if (isDev) {
+      Reflect.set(options, 'synchronize', true);
+    }
+
+    return options;
   }
 }

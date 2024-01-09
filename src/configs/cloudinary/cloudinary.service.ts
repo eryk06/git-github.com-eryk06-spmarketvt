@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { UploadApiOptions, v2 as cloudinary } from 'cloudinary';
 import { HttpBadRequestError } from 'src/core';
-import { CloudinaryResponse } from './typedef';
 import { FOLDER_NAME } from '../environments';
 import streamifier from 'streamifier';
+import { CloudinaryResponse } from './cloudinary.provider';
 
 @Injectable()
 export class CloudinaryService {

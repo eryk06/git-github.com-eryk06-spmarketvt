@@ -3,7 +3,7 @@ version: '3.8'
 services:
   runner:
     image: myoung34/github-runner:latest
-    restart: always
+    restart: unless-stopped
     environment:
       RUNNER_SCOPE: repo
       ACCESS_TOKEN: ${ACCESS_TOKEN}
@@ -100,6 +100,7 @@ services:
   redis-adminer:
     image: patrikx3/p3x-redis-ui:latest
     container_name: redis-adminer
+    restart: unless-stopped
     ports:
       - 7843:7843
     volumes:

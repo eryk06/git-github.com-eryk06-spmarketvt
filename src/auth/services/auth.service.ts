@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CryptoService, JwtPayload, RedisService } from 'src/configs';
+import { CryptoService, RedisService } from 'src/configs';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
 import { UserEntity } from '@/modules/user/entities';
 import { SetCookieRFToken } from '@/core/helpers';
@@ -9,6 +9,7 @@ import { KeyService, UserService } from '@/modules';
 import * as crypto from 'crypto';
 import { SpeakeasyUtil, getInfoData } from '../../core';
 import { createToken } from '../utils';
+import { JwtPayload } from '../interfaces';
 
 @Injectable()
 export class AuthService {

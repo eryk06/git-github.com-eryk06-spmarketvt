@@ -8,19 +8,22 @@ import {
   MAIL_PORT,
   MAIL_USER
 } from '../environments';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class MailConfigService implements MailerOptionsFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createMailerOptions(): MailerOptions | Promise<MailerOptions> {
     return {
       transport: {
-        host: MAIL_HOST,
-        port: MAIL_PORT,
+        host: this.configService.get<string>('MAIL_HOST') || MAIL_HOST,
+        port: this.configService.get<number>('MAIL_PORT') ? +MAIL_PORT : 587,
         date: new Date(),
         secure: false,
         auth: {
-          user: MAIL_USER,
-          pass: MAIL_PASSWORD
+          user: this.configService.get<string>('MAIL_USER') || MAIL_USER,
+          pass: this.configService.get<string>('MAIL_PASSWORD') || MAIL_PASSWORD
         }
       },
       template: {

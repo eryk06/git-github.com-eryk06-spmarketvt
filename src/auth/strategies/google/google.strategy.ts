@@ -5,9 +5,9 @@ import { UserService } from '@/modules';
 import {
   GOOGLE_CALLBACK_URL,
   GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET,
-  JwtPayload
+  GOOGLE_CLIENT_SECRET
 } from '@/configs';
+import { JwtPayload } from '../../interfaces';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy) {

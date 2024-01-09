@@ -12,6 +12,11 @@
     "docker-compose",
     "cloudinary",
     "streamifier",
-    "setnx"
+    "setnx",
+    "spmarket",
+    "totp",
+    "pino",
+    "spmarketvt",
+    "eryk"
   ]
 }

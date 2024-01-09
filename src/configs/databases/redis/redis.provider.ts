@@ -4,14 +4,17 @@ import {
   RedisModuleOptionsFactory
 } from '@nestjs-modules/ioredis';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RedisConfigService implements RedisModuleOptionsFactory {
+  constructor(private readonly configService: ConfigService) {}
+
   createRedisModuleOptions(): RedisModuleOptions | Promise<RedisModuleOptions> {
     return {
       config: {
-        host: REDIS_HOST,
-        port: REDIS_PORT ? +REDIS_PORT : 6379
+        host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
+        port: this.configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379
       }
     };
   }

@@ -1,5 +1,4 @@
 export * from './databases';
-export * from './jwt';
 export * from './crypto';
 export * from './cloudinary';
 export * from './queue';
@@ -12,3 +11,4 @@ export * from './environments';
 export * from './static';
 export * from './discord';
 export * from './health';
+export * from './config.module';

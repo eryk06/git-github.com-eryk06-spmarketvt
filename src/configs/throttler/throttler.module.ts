@@ -7,22 +7,24 @@ import {
   THROTTLE_LIMIT,
   THROTTLE_TTL
 } from '../environments';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     ThrottlerModuleHost.forRootAsync({
-      useFactory: () => ({
+      useFactory: (configService: ConfigService) => ({
         throttlers: [
           {
-            ttl: THROTTLE_TTL,
-            limit: THROTTLE_LIMIT
+            ttl: configService.get<number>('THROTTLE_TTL') || THROTTLE_TTL,
+            limit: configService.get<number>('THROTTLE_LIMIT') || THROTTLE_LIMIT
           }
         ],
         storage: new ThrottlerStorageRedisService({
-          host: REDIS_HOST,
-          port: REDIS_PORT ? +REDIS_PORT : 6379
+          host: configService.get<string>('REDIS_HOST') || REDIS_HOST,
+          port: configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379
         })
-      })
+      }),
+      inject: [ConfigService]
     })
   ]
 })

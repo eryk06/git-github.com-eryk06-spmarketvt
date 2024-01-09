@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { FIREBASE_ADMIN_NAME, FIREBASE_ADMIN_PROVIDER } from './constant';
 
-const serviceAccount = require('../../../datasource/firebase.json');
+const serviceAccount = require('../../../data/firebase.json');
 
 @Module({
   providers: [
