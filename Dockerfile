@@ -15,6 +15,7 @@ ENV PM2_SECRET_KEY k9luueq6w355k4g
 
 # Copy only package files first to leverage Docker caching
 COPY --chown=node:node package*.json pnpm-lock.yaml ./
+COPY --chown=node:node rollup.config.mjs tsconfig.json ./
 
 # Install dependencies with pnpm using `pnpm ci`
 RUN --mount=type=cache,target=/app/node_modules pnpm install --force --frozen-lockfile
@@ -35,7 +36,7 @@ FROM development as builder
 COPY --chown=node:node src ./src
 
 # Run the build command (replace with your build command)
-RUN pnpm run build
+RUN pnpm build
 
 # Production stage
 FROM base as production
