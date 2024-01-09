@@ -7,9 +7,11 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
+    "build:rollup": "rimraf dist && rollup -c",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env NODE_ENV=production nest start",
     "dev": "cross-env NODE_ENV=development nest start --watch",
+    "dev:rollup": "cross-env NODE_ENV=development rollup -c -w",
     "doc": "compodoc -s",
     "migration:generate": "pnpm typeorm migration:generate",
     "migration:create": "pnpm typeorm migration:create",
