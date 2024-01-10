@@ -7,12 +7,12 @@ import { LoggerModule as LoggerModuleHost } from 'nestjs-pino';
     LoggerModuleHost.forRoot({
       pinoHttp: {
         transport: {
-          target: 'pino-pretty'
-        }
-      }
-    })
+          target: 'pino-pretty',
+        },
+      },
+    }),
   ],
   providers: [LoggerService],
-  exports: [LoggerService]
+  exports: [LoggerService],
 })
 export class LoggerModule {}

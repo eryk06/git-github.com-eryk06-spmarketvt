@@ -6,7 +6,7 @@ import {
   CryptoService,
   MailModule,
   RedisService,
-  RedisModule
+  RedisModule,
 } from 'src/configs';
 import { KeyEntity, KeyService, UserModule, UserService } from 'src/modules';
 import { AuthController } from './controllers';
@@ -21,7 +21,7 @@ import { Authentication } from '../core/middlewares/authentication.middleware';
     RedisModule,
     UserModule,
     MailModule,
-    PassportModule.register({ session: true })
+    PassportModule.register({ session: true }),
   ],
   controllers: [AuthController],
   providers: [
@@ -33,9 +33,9 @@ import { Authentication } from '../core/middlewares/authentication.middleware';
     JwtStrategy,
     LocalStrategy,
     SessionSerializer,
-    GoogleStrategy
+    GoogleStrategy,
   ],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

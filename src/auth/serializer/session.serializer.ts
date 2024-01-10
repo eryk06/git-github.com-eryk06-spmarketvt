@@ -6,7 +6,7 @@ import { UserEntity } from '@/modules';
 export class SessionSerializer extends PassportSerializer {
   serializeUser(
     user: UserEntity,
-    done: (err: Error, user: UserEntity) => void
+    done: (err: Error, user: UserEntity) => void,
   ) {
     done(null, user);
   }

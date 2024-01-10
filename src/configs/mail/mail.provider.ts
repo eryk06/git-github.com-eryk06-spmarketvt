@@ -6,7 +6,7 @@ import {
   MAIL_HOST,
   MAIL_PASSWORD,
   MAIL_PORT,
-  MAIL_USER
+  MAIL_USER,
 } from '../environments';
 import { ConfigService } from '@nestjs/config';
 
@@ -23,16 +23,17 @@ export class MailConfigService implements MailerOptionsFactory {
         secure: false,
         auth: {
           user: this.configService.get<string>('MAIL_USER') || MAIL_USER,
-          pass: this.configService.get<string>('MAIL_PASSWORD') || MAIL_PASSWORD
-        }
+          pass:
+            this.configService.get<string>('MAIL_PASSWORD') || MAIL_PASSWORD,
+        },
       },
       template: {
         dir: join(__dirname, 'template'),
         adapter: new HandlebarsAdapter(),
         options: {
-          strict: true
-        }
-      }
+          strict: true,
+        },
+      },
     };
   }
 }

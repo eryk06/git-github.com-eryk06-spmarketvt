@@ -7,7 +7,7 @@ import { SwaggerTheme } from 'swagger-themes';
 
 const logger = createLogger({
   scope: 'Swagger',
-  time: NODE_ENV === 'development'
+  time: NODE_ENV === 'development',
 });
 
 export function useSwagger(app: INestApplication) {
@@ -21,7 +21,7 @@ export function useSwagger(app: INestApplication) {
     .addServer(`http://localhost:${port}/api/v1`)
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    extraModels
+    extraModels,
   });
   const theme = new SwaggerTheme('v3');
   const options = {
@@ -32,7 +32,7 @@ export function useSwagger(app: INestApplication) {
       persistAuthorization: true,
       operationsSorter: (
         a: { get: (arg0: string) => string },
-        b: { get: (arg0: string) => string }
+        b: { get: (arg0: string) => string },
       ) => {
         const methodsOrder = [
           'get',
@@ -41,7 +41,7 @@ export function useSwagger(app: INestApplication) {
           'patch',
           'delete',
           'options',
-          'trace'
+          'trace',
         ];
         let result =
           methodsOrder.indexOf(a.get('method')) -
@@ -52,12 +52,12 @@ export function useSwagger(app: INestApplication) {
         }
 
         return result;
-      }
-    }
+      },
+    },
   };
   SwaggerModule.setup(path, app, document, options);
   logger.log(
-    `Your documentation is running on http://localhost:${port}/${path}`
+    `Your documentation is running on http://localhost:${port}/${path}`,
   );
 }
 

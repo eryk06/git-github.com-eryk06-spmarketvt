@@ -10,7 +10,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
     super({
       usernameField: 'email',
-      passwordField: 'password'
+      passwordField: 'password',
     });
   }
 
@@ -33,7 +33,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       const payload: JwtPayload = {
         uuid: user.uuid,
         email: user.email,
-        role: user.role
+        role: user.role,
       };
 
       return payload;

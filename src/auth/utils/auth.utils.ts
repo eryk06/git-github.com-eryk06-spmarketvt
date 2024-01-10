@@ -3,7 +3,7 @@ import * as ms from 'ms';
 import base64url from 'base64url';
 import {
   ACCESS_TOKEN_EXPIRATION_TIME,
-  REFRESH_TOKEN_EXPIRATION_TIME
+  REFRESH_TOKEN_EXPIRATION_TIME,
 } from '../../configs';
 
 async function createToken({ payload, publicKey, privateKey }): Promise<any> {
@@ -13,12 +13,12 @@ async function createToken({ payload, publicKey, privateKey }): Promise<any> {
 
     const access_token = jwt.sign(payload, privateKey, {
       algorithm: 'RS256',
-      expiresIn: access_token_expiration_ms
+      expiresIn: access_token_expiration_ms,
     });
 
     const refresh_token = jwt.sign(payload, privateKey, {
       algorithm: 'RS256',
-      expiresIn: refresh_token_expiration_ms
+      expiresIn: refresh_token_expiration_ms,
     });
 
     const urlSafeAccess = base64url.encode(access_token);

@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import {
   HealthCheck,
   HealthCheckService,
-  HttpHealthIndicator
+  HttpHealthIndicator,
 } from '@nestjs/terminus';
 import { ConfigService } from '@nestjs/config';
 
@@ -11,7 +11,7 @@ export class HealthController {
   constructor(
     private readonly configService: ConfigService,
     private health: HealthCheckService,
-    private http: HttpHealthIndicator
+    private http: HttpHealthIndicator,
   ) {}
 
   private SERVER_URL = this.configService.get('SERVER_URL');
@@ -23,8 +23,8 @@ export class HealthController {
       () =>
         this.http.pingCheck(
           'spmarketvt-server',
-          `${this.SERVER_URL}/health_check`
-        )
+          `${this.SERVER_URL}/health_check`,
+        ),
     ]);
   }
 }

@@ -17,7 +17,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly keyService: KeyService,
     private readonly redisService: RedisService,
-    private readonly cryptoService: CryptoService
+    private readonly cryptoService: CryptoService,
   ) {}
 
   // register
@@ -36,7 +36,7 @@ export class AuthService {
       const user = await this.userService.create({
         email: email,
         password: password,
-        twoFactorTempSecret: twoFactorTempSecret
+        twoFactorTempSecret: twoFactorTempSecret,
       });
 
       if (user) {
@@ -44,17 +44,17 @@ export class AuthService {
           modulusLength: 2048,
           publicKeyEncoding: {
             type: 'pkcs1',
-            format: 'pem'
+            format: 'pem',
           },
           privateKeyEncoding: {
             type: 'pkcs1',
-            format: 'pem'
-          }
+            format: 'pem',
+          },
         });
 
         const publicKeyString = await this.keyService.createKeyToken({
           uuid: user.uuid,
-          publicKey: publicKey
+          publicKey: publicKey,
         });
 
         if (!publicKeyString) {
@@ -66,27 +66,27 @@ export class AuthService {
         const payload: JwtPayload = {
           uuid: user.uuid,
           email: user.email,
-          role: user.role
+          role: user.role,
         };
 
         const tokens = await createToken({
           payload: payload,
           publicKey: publicKeyObject,
-          privateKey: privateKey
+          privateKey: privateKey,
         });
 
         return {
           message: 'Register successfully',
           user: getInfoData({
             filed: ['uuid', 'email', 'role', 'status'],
-            object: user
+            object: user,
           }),
-          tokens: tokens
+          tokens: tokens,
         };
       }
 
       return {
-        message: 'Register failed'
+        message: 'Register failed',
       };
     } catch (error) {
       throw new HttpInternalServerError(error.message);
@@ -97,7 +97,7 @@ export class AuthService {
   async login(
     loginDTO: LoginDTO,
     response: Response,
-    refreshToken = null
+    refreshToken = null,
   ): Promise<any> {
     try {
       const { email } = loginDTO;
@@ -108,17 +108,17 @@ export class AuthService {
         modulusLength: 2048,
         publicKeyEncoding: {
           type: 'pkcs1',
-          format: 'pem'
+          format: 'pem',
         },
         privateKeyEncoding: {
           type: 'pkcs1',
-          format: 'pem'
-        }
+          format: 'pem',
+        },
       });
 
       const publicKeyString = await this.keyService.createKeyToken({
         uuid: user.uuid,
-        publicKey: publicKey
+        publicKey: publicKey,
       });
 
       if (!publicKeyString) {
@@ -130,22 +130,22 @@ export class AuthService {
       const payload: JwtPayload = {
         uuid: user.uuid,
         email: user.email,
-        role: user.role
+        role: user.role,
       };
 
       const tokens = await createToken({
         payload: payload,
         publicKey: publicKeyObject,
-        privateKey: privateKey
+        privateKey: privateKey,
       });
 
       const result = {
         message: 'Login successfully',
         user: getInfoData({
           filed: ['uuid', 'email', 'role', 'status'],
-          object: user
+          object: user,
         }),
-        tokens: tokens
+        tokens: tokens,
       };
 
       // Save access and refresh token to redis
@@ -171,7 +171,7 @@ export class AuthService {
 
       return {
         message: 'Login google successfully',
-        user: req.user
+        user: req.user,
       };
     } catch (error) {
       throw new HttpInternalServerError(error.message);

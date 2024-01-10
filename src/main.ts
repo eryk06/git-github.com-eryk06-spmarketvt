@@ -3,7 +3,7 @@ import { AppModule } from './app/app.module';
 import { NODE_ENV, PORT, SESSION_SECRET } from './configs/environments';
 import {
   ExpressAdapter,
-  NestExpressApplication
+  NestExpressApplication,
 } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
@@ -24,7 +24,7 @@ import {
   TimeoutInterceptor,
   TransformInterceptor,
   TypeormExceptionFilter,
-  ValidationPipe
+  ValidationPipe,
 } from './core';
 import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { useSwagger } from './app';
@@ -42,8 +42,8 @@ async function bootstrap() {
       : {
           snapshot: true,
           bufferLogs: true,
-          forceCloseConnections: true
-        }
+          forceCloseConnections: true,
+        },
   );
 
   app.setGlobalPrefix('api/v1');
@@ -53,21 +53,21 @@ async function bootstrap() {
   const sessionOptions: session.SessionOptions = {
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   };
 
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 100,
     standardHeaders: 'draft-7',
-    legacyHeaders: false
+    legacyHeaders: false,
   });
 
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
     new LoggerErrorInterceptor(),
     new ResponseTransformInterceptor(),
-    new TransformInterceptor()
+    new TransformInterceptor(),
   );
 
   app.useGlobalFilters(new HttpExceptionFilter(), new TypeormExceptionFilter());
@@ -80,8 +80,8 @@ async function bootstrap() {
       filter: () => {
         return true;
       },
-      threshold: 0
-    })
+      threshold: 0,
+    }),
   );
   app.use(session(sessionOptions));
   app.use(passport.initialize());
@@ -110,9 +110,9 @@ bootstrap()
   .then(() =>
     logger.success(
       `Application is listening on port ${PORT} | ${NODE_ENV} 🧪 🧴 | ${dayjs().format(
-        'YYYY-MM-DD HH:mm:ss 🪼  🦠'
-      )}`
-    )
+        'YYYY-MM-DD HH:mm:ss 🪼  🦠',
+      )}`,
+    ),
   )
   .catch((error) => {
     logger.error(`🥵 😡 Server Can Not Start. Error: ${error.message} 😡 🥵`);

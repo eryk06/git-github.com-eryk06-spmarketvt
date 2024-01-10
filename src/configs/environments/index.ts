@@ -110,16 +110,16 @@ const SPEAKEASY_SECRET: string = Joi.string()
   .required()
   .validate(process.env.SPEAKEASY_SECRET).value;
 const SPEAKEASY_LENGTH: number = Joi.number().validate(
-  process.env.SPEAKEASY_LENGTH
+  process.env.SPEAKEASY_LENGTH,
 ).value;
 const SPEAKEASY_ENCODING: string = Joi.string().validate(
-  process.env.SPEAKEASY_ENCODING
+  process.env.SPEAKEASY_ENCODING,
 ).value;
 const SPEAKEASY_ALGORITHM: string = Joi.string().validate(
-  process.env.SPEAKEASY_ALGORITHM
+  process.env.SPEAKEASY_ALGORITHM,
 ).value;
 const SPEAKEASY_STEP: number = Joi.number().validate(
-  process.env.SPEAKEASY_STEP
+  process.env.SPEAKEASY_STEP,
 ).value;
 
 // google
@@ -185,5 +185,5 @@ export {
   GOOGLE_CALLBACK_URL,
   ALGORITHM_AES,
   ALGORITHM_SHA,
-  TOKEN_BOT
+  TOKEN_BOT,
 };

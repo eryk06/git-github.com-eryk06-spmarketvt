@@ -10,11 +10,11 @@ import { TerminusLogger } from './health-logger.service';
     TerminusModule.forRoot({
       logger: TerminusLogger,
       errorLogStyle: 'pretty',
-      gracefulShutdownTimeoutMs: 1000
+      gracefulShutdownTimeoutMs: 1000,
     }),
     ConfigModule,
-    HttpModule
+    HttpModule,
   ],
-  controllers: [HealthController]
+  controllers: [HealthController],
 })
 export class HealthModule {}

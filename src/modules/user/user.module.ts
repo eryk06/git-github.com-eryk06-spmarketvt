@@ -9,6 +9,6 @@ import { RedisService, RedisModule } from 'src/configs';
   imports: [TypeOrmModule.forFeature([UserEntity]), RedisModule],
   providers: [UserService, RedisService],
   controllers: [UserController],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

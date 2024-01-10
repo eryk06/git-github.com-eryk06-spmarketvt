@@ -11,7 +11,7 @@ import {
   MailModule,
   RedisModule,
   StaticModule,
-  ThrottlerModule
+  ThrottlerModule,
 } from '../configs';
 import { MulterModule } from '@nestjs/platform-express';
 import {
@@ -19,7 +19,7 @@ import {
   CorsMiddleware,
   CsurfMiddleware,
   LoggerMiddleware,
-  OriginMiddleware
+  OriginMiddleware,
 } from '../core';
 import { QueueModule } from '../configs/queue';
 import { SearchModule } from '../configs/search';
@@ -38,12 +38,12 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
     ClsModule.forRoot({
       global: true,
       middleware: {
-        mount: true
-      }
+        mount: true,
+      },
     }),
 
     MulterModule.register({
-      dest: './upload'
+      dest: './upload',
     }),
 
     // CONFIGS
@@ -65,26 +65,26 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
     AuthModule,
     UserModule,
     KeyModule,
-    ChatModule
+    ChatModule,
   ],
   controllers: [AppController],
-  providers: [ApiKeyService]
+  providers: [ApiKeyService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     CsurfMiddleware.configure({
       cookie: true,
-      httpOnly: true
+      httpOnly: true,
     });
     PermissionMiddleware.configure({
-      permission: '0000'
+      permission: '0000',
     });
     consumer
       .apply(
         LoggerMiddleware,
         OriginMiddleware,
         CorsMiddleware,
-        ApiKeyMiddleware
+        ApiKeyMiddleware,
         // PermissionMiddleware
         // BotMiddleware
         // CsurfMiddleware

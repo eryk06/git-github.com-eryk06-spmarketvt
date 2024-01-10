@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   DiscordModuleOption,
-  DiscordOptionsFactory
+  DiscordOptionsFactory,
 } from '@discord-nestjs/core';
 import { GatewayIntentBits } from 'discord.js';
 import { TOKEN_BOT } from '../environments';
@@ -20,10 +20,10 @@ export class DiscordConfigService implements DiscordOptionsFactory {
           GatewayIntentBits.GuildMessages,
           GatewayIntentBits.MessageContent,
           GatewayIntentBits.GuildMembers,
-          GatewayIntentBits.DirectMessages
-        ]
+          GatewayIntentBits.DirectMessages,
+        ],
       },
-      autoLogin: true
+      autoLogin: true,
     };
   }
 }

@@ -14,8 +14,8 @@ export class AppController {
         timestamp: new Date().toISOString(),
         version: '1.0.0',
         env: NODE_ENV,
-        port: PORT
-      }
+        port: PORT,
+      },
     };
   }
 }

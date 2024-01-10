@@ -6,7 +6,7 @@ const packageJSON = require(path.resolve(ROOT_PATH, '../package.json'));
 
 export const CROSS_DOMAIN = {
   allowedOrigins: [SERVER_URL],
-  allowedReferer: SERVER_URL
+  allowedReferer: SERVER_URL,
 };
 
 export const PROJECT = {
@@ -14,6 +14,6 @@ export const PROJECT = {
   version: packageJSON.version,
   author: packageJSON.author,
   homepage: packageJSON.homepage,
-  documentation: packageJSON.documentation
+  documentation: packageJSON.documentation,
   // repository: packageJSON.repository.url
 };

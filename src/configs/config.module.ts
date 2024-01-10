@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import * as Joi from 'joi';
 import {
   ConfigService,
-  ConfigModule as NestConfigModule
+  ConfigModule as NestConfigModule,
 } from '@nestjs/config';
 
 @Global()
@@ -10,7 +10,10 @@ import {
   imports: [
     NestConfigModule.forRoot({
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string().default('development').required(),
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test')
+          .default('development')
+          .required(),
         PORT: Joi.number().default(4000).required(),
         SERVER_URL: Joi.string().required(),
         SESSION_SECRET: Joi.string().required(),
@@ -44,18 +47,19 @@ import {
         GOOGLE_CALLBACK_URL: Joi.string().required(),
         ALGORITHM_AES: Joi.string().required(),
         ALGORITHM_SHA: Joi.string().required(),
-        TOKEN_BOT: Joi.string().required()
+        TOKEN_BOT: Joi.string().required(),
       }),
+      validationOptions: {
+        abortEarly: false,
+      },
       isGlobal: true,
       cache: true,
       expandVariables: true,
       envFilePath:
-        <string>process.env.NODE_ENV === 'development'
-          ? '.env.dev'
-          : '.env.prod'
-    })
+        <string>process.env.NODE_ENV === 'development' ? '.env' : '.env.dev',
+    }),
   ],
   providers: [ConfigService],
-  exports: [ConfigService]
+  exports: [ConfigService],
 })
 export class ConfigModule {}

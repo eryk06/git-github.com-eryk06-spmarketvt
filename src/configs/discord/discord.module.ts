@@ -8,17 +8,17 @@ import { DiscordGateway } from './discord.gateway';
   imports: [
     DiscordModuleHost.forRootAsync({
       useClass: DiscordConfigService,
-      inject: [DiscordConfigService]
-    })
+      inject: [DiscordConfigService],
+    }),
   ],
   providers: [
     {
       provide: MetadataKey.DISCORD,
-      useClass: DiscordConfigService
+      useClass: DiscordConfigService,
     },
-    DiscordGateway
+    DiscordGateway,
   ],
 
-  exports: [DiscordGateway, DiscordModuleHost, MetadataKey.DISCORD]
+  exports: [DiscordGateway, DiscordModuleHost, MetadataKey.DISCORD],
 })
 export class DiscordModule {}
