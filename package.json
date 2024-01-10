@@ -63,7 +63,6 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
-    "crypto": "^1.0.1",
     "csurf": "^1.11.0",
     "dayjs": "^1.11.10",
     "discord.js": "^14.14.1",

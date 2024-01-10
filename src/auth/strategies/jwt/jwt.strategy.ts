@@ -1,18 +1,17 @@
 import { RedisService } from '@/configs';
-import { SECRET_JWT } from '@/configs/environments';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Request } from 'express';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { JwtPayload } from '../../interfaces';
+import { access_token_public_key } from '@/constraints/jwt.constraints';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(private readonly redisService: RedisService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: SECRET_JWT,
+      ignoreExpiration: true,
+      secretOrKey: access_token_public_key,
     });
   }
 
@@ -23,14 +22,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     const refresh_token = await this.redisService.get(`refresh-${uuid}`);
 
     if (!access_token || !refresh_token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Unauthorized');
     }
 
     return payload;
-  }
-
-  private extractTokenFromHeader(request: Request) {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
   }
 }

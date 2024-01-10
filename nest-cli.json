@@ -8,8 +8,7 @@
       "configs/mail/template/*",
       {
         "include": "i18n/**/*",
-        "watchAssets": true,
-        "outDir": "dist/apps/api"
+        "watchAssets": true
       }
     ]
   }

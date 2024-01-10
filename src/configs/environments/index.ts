@@ -53,9 +53,6 @@ const THROTTLE_LIMIT: number = Joi.number()
   .validate(process.env.THROTTLE_LIMIT).value;
 
 // jwt
-const SECRET_JWT: string = Joi.string()
-  .required()
-  .validate(process.env.SECRET_JWT).value;
 const SECRET_KEY: string = Joi.string()
   .required()
   .validate(process.env.SECRET_KEY).value;
@@ -160,7 +157,6 @@ export {
   REDIS_PORT,
   THROTTLE_TTL,
   THROTTLE_LIMIT,
-  SECRET_JWT,
   SECRET_KEY,
   SECRET_KEY_IV,
   TOKEN_BUFFER,

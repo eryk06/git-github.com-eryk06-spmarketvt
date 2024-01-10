@@ -1,10 +1,10 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { createCipheriv, createDecipheriv, createHash } from 'crypto';
+import { createCipheriv, createDecipheriv, createHash } from 'node:crypto';
 import {
   ALGORITHM_AES,
   ALGORITHM_SHA,
   SECRET_KEY,
-  SECRET_KEY_IV
+  SECRET_KEY_IV,
 } from '../environments';
 import { ConfigService } from '@nestjs/config';
 
@@ -19,20 +19,20 @@ export class CryptoService {
       this.configService.get<string>('SECRET_KEY_IV') ||
       (SECRET_KEY_IV as string);
     const key = createHash(
-      this.configService.get<string>('ALGORITHM_SHA') || ALGORITHM_SHA
+      this.configService.get<string>('ALGORITHM_SHA') || ALGORITHM_SHA,
     )
       .update(secretKey)
       .digest('hex')
       .substring(0, 32);
     const encryptionIV = createHash(
-      this.configService.get<string>('ALGORITHM_SHA') || ALGORITHM_SHA
+      this.configService.get<string>('ALGORITHM_SHA') || ALGORITHM_SHA,
     )
       .update(secretIV)
       .digest('hex')
       .substring(0, 16);
     return {
       key,
-      encryptionIV
+      encryptionIV,
     };
   }
 
@@ -41,10 +41,10 @@ export class CryptoService {
     const cipher = createCipheriv(
       this.configService.get<string>('ALGORITHM_AES') || ALGORITHM_AES,
       key,
-      encryptionIV
+      encryptionIV,
     );
     return Buffer.from(
-      cipher.update(data, 'utf8', 'hex') + cipher.final('hex')
+      cipher.update(data, 'utf8', 'hex') + cipher.final('hex'),
     ).toString('base64'); // Encrypts data and converts to hex and base64
   }
 
@@ -54,7 +54,7 @@ export class CryptoService {
     const decipher = createDecipheriv(
       this.configService.get<string>('ALGORITHM_AES') || ALGORITHM_AES,
       key,
-      encryptionIV
+      encryptionIV,
     );
     try {
       // Decrypts data and converts to utf8

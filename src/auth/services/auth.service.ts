@@ -6,7 +6,7 @@ import { SetCookieRFToken } from '@/core/helpers';
 import { Request, Response } from 'express';
 import { HttpBadRequestError, HttpInternalServerError } from '@/core/errors';
 import { KeyService, UserService } from '@/modules';
-import * as crypto from 'crypto';
+import * as crypto from 'node:crypto';
 import { SpeakeasyUtil, getInfoData } from '../../core';
 import { createToken } from '../utils';
 import { JwtPayload } from '../interfaces';
@@ -43,11 +43,11 @@ export class AuthService {
         const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
           modulusLength: 2048,
           publicKeyEncoding: {
-            type: 'pkcs1',
+            type: 'spki',
             format: 'pem',
           },
           privateKeyEncoding: {
-            type: 'pkcs1',
+            type: 'pkcs8',
             format: 'pem',
           },
         });

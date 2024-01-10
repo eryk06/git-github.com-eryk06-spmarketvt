@@ -60,7 +60,7 @@ services:
       retries: 5
 
   backend:
-    container_name: nestjs-api
+    container_name: backend
     build:
       dockerfile: Dockerfile
       context: .
@@ -97,14 +97,14 @@ services:
       timeout: 10s
       retries: 5
 
-  redis-adminer:
-    image: patrikx3/p3x-redis-ui:latest
-    container_name: redis-adminer
+  redis-commander:
+    container_name: redis-commander
+    image: rediscommander/redis-commander:latest
     restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis:6379
     ports:
-      - 7843:7843
-    volumes:
-      - /home/user/p3x-redis-ui-settings:/settings
+      - 8081:8081
     depends_on:
       - redis
     networks:
@@ -120,7 +120,6 @@ services:
       - ${ADMINER_PORT}:${ADMINER_PORT}
     depends_on:
       - postgres
-      - redis
     environment:
       ADMINER_DESIGN: dracula
       ADMINER_PLUGINS: tables-filter
@@ -148,7 +147,4 @@ volumes:
     driver: local
   runner:
     name: runner
-    driver: local
-  redis-adminer:
-    name: redis-adminer
     driver: local
