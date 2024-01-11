@@ -12,17 +12,35 @@ export class UserService extends BaseService<UserEntity> {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly redisService: RedisService
+    private readonly redisService: RedisService,
   ) {
     super(userRepository);
   }
 
   async getOne(where: any): Promise<UserEntity> {
-    return await this.userRepository.findOne({ where });
+    try {
+      return await this.userRepository.findOne({ where: { ...where } });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getOneOrFail(where: any): Promise<UserEntity> {
-    return await this.userRepository.findOneOrFail({ where });
+    try {
+      return await this.userRepository.findOneOrFail({ where: { ...where } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // get all users
+  async getAllUser(): Promise<UserEntity[]> {
+    try {
+      const users = await this.userRepository.find();
+      return users;
+    } catch (error) {
+      throw error;
+    }
   }
 
   // delete user
@@ -30,7 +48,7 @@ export class UserService extends BaseService<UserEntity> {
     try {
       await this.userRepository.delete({ uuid });
       return {
-        message: 'Delete user successfully'
+        message: 'Delete user successfully',
       };
     } catch (error) {
       throw error;

@@ -35,10 +35,14 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
 @Module({
   imports: [
     TypeOrmModule.forFeature([ApiKeyEntity]),
+
     ClsModule.forRoot({
       global: true,
       middleware: {
         mount: true,
+        setup: (cls, req) => {
+          cls.set('userId', req.headers['x-user-id']);
+        },
       },
     }),
 
@@ -85,7 +89,7 @@ export class AppModule implements NestModule {
         OriginMiddleware,
         CorsMiddleware,
         ApiKeyMiddleware,
-        // PermissionMiddleware
+        PermissionMiddleware,
         // BotMiddleware
         // CsurfMiddleware
       )

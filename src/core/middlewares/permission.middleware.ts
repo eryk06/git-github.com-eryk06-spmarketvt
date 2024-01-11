@@ -1,6 +1,4 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { HttpBadRequestError } from '../errors';
-import { ApiKeyService } from '../../modules';
 
 @Injectable()
 export class PermissionMiddleware implements NestMiddleware {
@@ -11,27 +9,27 @@ export class PermissionMiddleware implements NestMiddleware {
   }
 
   // check permission
-  use(permission: any) {
-    return (req: any, res: any, next: any) => {
-      try {
-        if (!req.objKey.permissions) {
-          return res.status(403).json({
-            message: 'Permission denied'
-          });
-        }
+  use(req: any, res: any, next: any) {
+    try {
+      const permission = PermissionMiddleware.options.permission;
 
-        const validPermission = req.objKey.permissions.includes(permission);
-
-        if (!validPermission) {
-          return res.status(403).json({
-            message: 'Permission denied'
-          });
-        }
-
-        return next();
-      } catch (error) {
-        next(error);
+      if (!req.objKey.pesmissions) {
+        return res.status(403).json({
+          message: 'Permission denied',
+        });
       }
-    };
+
+      const validPermission = req.objKey.pesmissions.includes(permission);
+
+      if (!validPermission) {
+        return res.status(403).json({
+          message: 'Permission denied',
+        });
+      }
+
+      return next();
+    } catch (error) {
+      next(error);
+    }
   }
 }

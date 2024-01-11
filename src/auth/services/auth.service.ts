@@ -25,9 +25,9 @@ export class AuthService {
     try {
       const { email, password } = registerDTO;
 
-      const findUser: UserEntity = await this.userService.getOne({ email });
+      const existed_user: UserEntity = await this.userService.getOne({ email });
 
-      if (findUser) {
+      if (existed_user) {
         throw new HttpBadRequestError('Email already exists');
       }
 

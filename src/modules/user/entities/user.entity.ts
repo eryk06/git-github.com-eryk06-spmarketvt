@@ -1,12 +1,13 @@
 import { BaseEntity } from 'src/common/base';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { ROLE, STATUS } from '@/core';
+import { KeyEntity } from '../../key';
 
 @Entity({
   name: 'user',
   orderBy: {
-    created_at: 'DESC'
-  }
+    created_at: 'DESC',
+  },
 })
 export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
@@ -18,7 +19,7 @@ export class UserEntity extends BaseEntity {
   @Column({
     type: 'enum',
     enum: ROLE,
-    default: ROLE.USER
+    default: ROLE.USER,
   })
   role: ROLE;
 
