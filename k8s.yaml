@@ -1,0 +1,23 @@
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: dev-nestjs-kubernetes
+build:
+  artifacts:
+    - image: docker.io/qlam06/admint-docker
+      context: .
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.*"
+            dest: .
+deploy:
+  kubectl:
+    flags:
+      global: [--namespace=nestjs-kubernetes-namespace]
+  manifests:
+    - k8s/postgres.yaml
+    - k8s/data.yaml
+    - k8s/redis.yaml
+    - k8s/nestjs.yaml

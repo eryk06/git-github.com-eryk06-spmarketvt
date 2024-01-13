@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: nestjs-kubernetes-namespace
+  name: postgres-deployment
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:alpine
+          env:
+            - name: POSTGRES_DB
+              value: nestjs
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nestjs-kubernetes-secret
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: nestjs-kubernetes-volume
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres-.x.x-var-lib-postgresql-data
