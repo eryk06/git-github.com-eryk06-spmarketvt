@@ -1,4 +1,4 @@
-import { RedisModule as RedisModuleHost } from '@nestjs-modules/ioredis';
+import { RedisModule as NestjsRedisModule } from '@nestjs-modules/ioredis';
 import { Module } from '@nestjs/common';
 import { RedisService } from './redis.service';
 import { MetadataKey } from 'src/core/constants';
@@ -6,18 +6,18 @@ import { RedisConfigService } from './redis.provider';
 
 @Module({
   imports: [
-    RedisModuleHost.forRootAsync({
+    NestjsRedisModule.forRootAsync({
       useClass: RedisConfigService,
-      inject: [RedisConfigService]
-    })
+      inject: [RedisConfigService],
+    }),
   ],
   providers: [
     {
       provide: MetadataKey.REDIS,
-      useClass: RedisConfigService
+      useClass: RedisConfigService,
     },
-    RedisService
+    RedisService,
   ],
-  exports: [RedisModuleHost, RedisService, MetadataKey.REDIS]
+  exports: [NestjsRedisModule, RedisService, MetadataKey.REDIS],
 })
 export class RedisModule {}

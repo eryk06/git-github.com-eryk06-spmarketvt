@@ -4,8 +4,8 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 @Entity({
   name: 'apikey',
   orderBy: {
-    created_at: 'DESC'
-  }
+    created_at: 'DESC',
+  },
 })
 export class ApiKeyEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
@@ -18,9 +18,9 @@ export class ApiKeyEntity extends BaseEntity {
     type: 'varchar',
     transformer: {
       to: (value: string[]) => JSON.stringify(value),
-      from: (value: string) => JSON.parse(value)
+      from: (value: string) => JSON.parse(value),
     },
-    enum: ['0000', '1111', '2222']
+    enum: ['0000', '1111', '2222'],
   })
   pesmissions: [string];
 

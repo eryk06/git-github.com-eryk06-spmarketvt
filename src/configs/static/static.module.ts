@@ -8,11 +8,11 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '..', 'public'),
       serveRoot: '/public',
       serveStaticOptions: {
-        cacheControl: true
-      }
-    })
+        cacheControl: true,
+      },
+    }),
   ],
   providers: [],
-  controllers: []
+  controllers: [],
 })
 export class StaticModule {}

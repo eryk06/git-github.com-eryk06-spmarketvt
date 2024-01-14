@@ -3,7 +3,7 @@ import {
   DeleteDateColumn,
   PrimaryGeneratedColumn,
   BaseEntity as TypeormBaseEntity,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { DayjsDate } from '@/core/decorators';
 
@@ -15,7 +15,7 @@ export class BaseEntity extends TypeormBaseEntity {
     name: 'created_at',
     type: 'timestamp without time zone',
     default: () => `timezone('Asia/Ho_Chi_Minh', now())`,
-    transformer: DayjsDate()
+    transformer: DayjsDate(),
   })
   createdAt!: Date;
 
@@ -24,13 +24,13 @@ export class BaseEntity extends TypeormBaseEntity {
     type: 'timestamp without time zone',
     default: () => `timezone('Asia/Ho_Chi_Minh', now())`,
     onUpdate: "timezone('Asia/Ho_Chi_Minh', now())",
-    transformer: DayjsDate()
+    transformer: DayjsDate(),
   })
   updatedAt!: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamp without time zone'
+    type: 'timestamp without time zone',
   })
   deletedAt!: Date;
 

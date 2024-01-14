@@ -2,7 +2,7 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, map } from 'rxjs';
@@ -12,7 +12,7 @@ import { FormatResponse } from '../interfaces';
 export class ResponseTransformInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
-    next: CallHandler
+    next: CallHandler,
   ): Observable<FormatResponse> {
     const http = context.switchToHttp();
     const response = http.getResponse<Response>();
@@ -26,16 +26,16 @@ export class ResponseTransformInterceptor implements NestInterceptor {
             statusCode,
             success: true,
             data: data[0],
-            metadata: getMetadata(request, data)
+            metadata: getMetadata(request, data),
           };
         }
 
         return {
           statusCode,
           success: true,
-          data
+          data,
         };
-      })
+      }),
     );
   }
 }
@@ -61,6 +61,6 @@ const getMetadata = (req: Request, data: any[]) => {
     page,
     limit,
     totalItems,
-    totalPages
+    totalPages,
   };
 };

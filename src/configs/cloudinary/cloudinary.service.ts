@@ -9,12 +9,12 @@ import { CloudinaryResponse } from './cloudinary.provider';
 export class CloudinaryService {
   async uploadFileImage(
     file: Express.Multer.File,
-    folder: string = FOLDER_NAME
+    folder: string = FOLDER_NAME,
   ): Promise<CloudinaryResponse> {
     const options: UploadApiOptions = {
       folder: folder,
       timestamp: Math.floor(Date.now() / 1000),
-      unique_filename: true
+      unique_filename: true,
     };
 
     return new Promise((resolve, rejects) => {
@@ -26,7 +26,7 @@ export class CloudinaryService {
           } else {
             rejects(new HttpBadRequestError(error.message));
           }
-        }
+        },
       );
       streamifier.createReadStream(file.buffer).pipe(uploadStream);
     });
@@ -46,7 +46,7 @@ export class CloudinaryService {
 
   async uploadMultipleFileImage(
     files: Express.Multer.File[],
-    folder?: string
+    folder?: string,
   ): Promise<CloudinaryResponse[]> {
     const result: CloudinaryResponse[] = [];
     for await (const file of files) {

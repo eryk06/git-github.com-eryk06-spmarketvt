@@ -4,12 +4,12 @@ import {
   Catch,
   HttpException,
   ArgumentsHost,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ExceptionInfo,
   HttpResponseError,
-  ResponseStatus
+  ResponseStatus,
 } from '../interfaces';
 import { UNDEFINED } from '../constants';
 import { NODE_ENV } from '@/configs/environments';
@@ -36,7 +36,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error:
         errorInfo?.message ||
         (lodash.isString(errorInfo) ? errorInfo : JSON.stringify(errorInfo)),
-      debug: NODE_ENV ? errorInfo?.stack || exception.stack : UNDEFINED
+      debug: NODE_ENV ? errorInfo?.stack || exception.stack : UNDEFINED,
     };
 
     // default 404

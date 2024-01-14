@@ -5,12 +5,13 @@ import {
   POSTGRES_PORT,
   POSTGRES_USER,
   REDIS_HOST,
-  REDIS_PORT
+  REDIS_PORT,
 } from '@/configs/environments';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from './strategy';
 import { ConfigService } from '@nestjs/config';
+import { RedisClientOptions } from 'redis';
 
 @Injectable()
 export class PostgresConfigService implements TypeOrmOptionsFactory {
@@ -37,19 +38,22 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       subscribers: ['dist/**/*.subscriber{.ts,.js}'],
       migrations: ['dist/database/migrations/*{.ts,.js}'],
       cache: {
-        type: 'ioredis',
+        type: 'redis',
         options: {
-          host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
-          port: this.configService.get<number>('REDIS_PORT')
-            ? +REDIS_PORT
-            : 6379
-        }
+          socket: {
+            host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
+            port: this.configService.get<number>('REDIS_PORT')
+              ? +REDIS_PORT
+              : 6379,
+          },
+        } as RedisClientOptions,
+        alwaysEnabled: true,
       },
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
       nativeDriver: true,
       poolSize: 100,
-      verboseRetryLog: true
+      verboseRetryLog: true,
     };
 
     // Use synchronize only in development environments

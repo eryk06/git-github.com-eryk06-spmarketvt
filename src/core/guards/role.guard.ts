@@ -14,15 +14,15 @@ export class TokenDTO {
 export class RoleGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private accessControlService: AccessControlService
+    private accessControlService: AccessControlService,
   ) {}
 
   canActivate(
-    context: ExecutionContext
+    context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<ROLE[]>(ROLE_KEY, [
       context.getHandler(),
-      context.getClass()
+      context.getClass(),
     ]);
 
     const request = context.switchToHttp().getRequest();
@@ -31,7 +31,7 @@ export class RoleGuard implements CanActivate {
     for (const role of requiredRoles) {
       const result = this.accessControlService.isAuthorized({
         requiredRole: role,
-        currentRole: accessToken.role
+        currentRole: accessToken.role,
       });
 
       if (result) return true;

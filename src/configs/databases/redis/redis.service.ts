@@ -44,7 +44,7 @@ export class RedisService {
     return this.set({
       key,
       value: token,
-      expired: TokenExpires.redisRefreshToken
+      expired: TokenExpires.redisRefreshToken,
     });
   }
 
@@ -53,7 +53,7 @@ export class RedisService {
     return this.set({
       key,
       value: token,
-      expired: TokenExpires.redisAccessToken
+      expired: TokenExpires.redisAccessToken,
     });
   }
 

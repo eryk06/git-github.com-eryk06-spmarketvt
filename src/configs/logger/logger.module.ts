@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { LoggerService } from './logger.service';
-import { LoggerModule as LoggerModuleHost } from 'nestjs-pino';
+import { LoggerModule as NestjsLoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
-    LoggerModuleHost.forRoot({
+    NestjsLoggerModule.forRoot({
       pinoHttp: {
         transport: {
           target: 'pino-pretty',

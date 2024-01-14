@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const logger = createLogger({
   scope: 'Service',
-  time: NODE_ENV === 'development'
+  time: NODE_ENV === 'development',
 });
 
 @Injectable()
@@ -19,7 +19,7 @@ export class LoggerMiddleware implements NestMiddleware {
       const contentLength = res.get('content-length');
 
       logger.info(
-        `${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`
+        `${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`,
       );
     });
 

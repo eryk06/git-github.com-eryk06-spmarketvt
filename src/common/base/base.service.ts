@@ -4,7 +4,7 @@ import {
   DeepPartial,
   FindOptionsOrder,
   FindOptionsWhere,
-  Repository
+  Repository,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { BaseEntity } from './base.entity';
@@ -34,7 +34,7 @@ export abstract class BaseService<Entity extends BaseEntity> {
       query,
       where,
       order,
-      ...relations
+      ...relations,
     );
     return queryBuilder.getManyAndCount();
   }
@@ -55,7 +55,7 @@ export abstract class BaseService<Entity extends BaseEntity> {
   }
 
   async getOneOrFail(
-    where?: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[]
+    where?: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
   ): Promise<Entity> {
     const entity = await this.repo.findOne({ where });
     if (!entity) {
@@ -103,7 +103,7 @@ export abstract class BaseService<Entity extends BaseEntity> {
 
   async updateBy(
     where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
-    data: QueryDeepPartialEntity<Entity>
+    data: QueryDeepPartialEntity<Entity>,
   ) {
     const entity = await this.getOneOrFail(where);
     return this.update(entity, data);
@@ -125,7 +125,7 @@ export abstract class BaseService<Entity extends BaseEntity> {
   }
 
   async softDelete(
-    where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[]
+    where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
   ) {
     const entity = await this.getOneOrFail(where);
     return this.repo.softRemove(entity);

@@ -3,7 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
-  PipeTransform
+  PipeTransform,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { ValidationError, validate } from 'class-validator';
@@ -19,7 +19,7 @@ export class ValidationPipe implements PipeTransform<any> {
     if (errors.length > 0) {
       throw new HttpException(
         errors[0].constraints[Object.keys(errors[0].constraints)[0]],
-        HttpStatus.UNPROCESSABLE_ENTITY
+        HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
     return value;

@@ -18,7 +18,7 @@ export const getResponserOptions = (target: any): ResponserOptions => {
     errorMessage: reflector.get(META.HTTP_ERROR_MESSAGE, target),
     successMessage: reflector.get(META.HTTP_SUCCESS_MESSAGE, target),
     transform: reflector.get(META.HTTP_RESPONSE_TRANSFORM, target),
-    paginate: reflector.get(META.HTTP_RESPONSE_TRANSFORM_TO_PAGINATE, target)
+    paginate: reflector.get(META.HTTP_RESPONSE_TRANSFORM_TO_PAGINATE, target),
   };
 };
 
@@ -59,7 +59,7 @@ const createDecorator = (options: DecoratorCreatorOption): MethodDecorator => {
     if (usePaginate) {
       SetMetadata(
         META.HTTP_RESPONSE_TRANSFORM_TO_PAGINATE,
-        true
+        true,
       )(descriptor.value);
     }
     return descriptor;
@@ -68,18 +68,18 @@ const createDecorator = (options: DecoratorCreatorOption): MethodDecorator => {
 
 export const error = (
   message: ResponseMessage,
-  statusCode?: HttpStatus
+  statusCode?: HttpStatus,
 ): MethodDecorator => {
   return createDecorator({ errorMessage: message, errorCode: statusCode });
 };
 
 export const success = (
   message: ResponseMessage,
-  statusCode?: HttpStatus
+  statusCode?: HttpStatus,
 ): MethodDecorator => {
   return createDecorator({
     successMessage: message,
-    successCode: statusCode
+    successCode: statusCode,
   });
 };
 
@@ -99,7 +99,7 @@ export function handle(...args: any) {
     successCode,
     errorMessage,
     successMessage,
-    usePaginate
+    usePaginate,
   });
 }
 

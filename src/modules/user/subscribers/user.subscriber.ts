@@ -2,7 +2,7 @@ import {
   type EntitySubscriberInterface,
   EventSubscriber,
   type InsertEvent,
-  type UpdateEvent
+  type UpdateEvent,
 } from 'typeorm';
 import { UserEntity } from '../entities';
 import { generateHash } from '@/core';

@@ -17,6 +17,6 @@ export function DayjsDate(): ValueTransformer {
     to: (value: string | number | Date | dayjs.Dayjs) => {
       const formattedDate = dayjs(value).format('YYYY-MM-DD HH:mm:ss');
       return formattedDate;
-    }
+    },
   };
 }

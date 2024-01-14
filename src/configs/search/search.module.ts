@@ -7,16 +7,16 @@ import { MetadataKey } from '@/core';
   imports: [
     ElasticsearchModule.registerAsync({
       useClass: SearchConfigService,
-      inject: [SearchConfigService]
-    })
+      inject: [SearchConfigService],
+    }),
   ],
   providers: [
     {
       provide: MetadataKey.ELASTICSEARCH,
-      useClass: SearchConfigService
+      useClass: SearchConfigService,
     },
-    SearchConfigService
+    SearchConfigService,
   ],
-  exports: [SearchModule, SearchConfigService, MetadataKey.ELASTICSEARCH]
+  exports: [SearchModule, SearchConfigService, MetadataKey.ELASTICSEARCH],
 })
 export class SearchModule {}

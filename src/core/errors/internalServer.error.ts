@@ -5,7 +5,7 @@ export class HttpInternalServerError extends HttpException {
   constructor(error?: any) {
     super(
       error || SERVER_ERROR_RESPONSES.INTERNAL_SERVER_ERROR,
-      HttpStatus.INTERNAL_SERVER_ERROR
+      HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }
 }

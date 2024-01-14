@@ -7,13 +7,13 @@ import { FIREBASE_ADMIN_PROVIDER } from '../constant';
 export class FirebaseMessagingService {
   constructor(
     @Inject(FIREBASE_ADMIN_PROVIDER)
-    private readonly firebaseAdmin: admin.app.App
+    private readonly firebaseAdmin: admin.app.App,
   ) {}
 
   async sendToDevice(
     registrationToken: string,
     payload: FcmPayload,
-    options?: admin.messaging.MessagingOptions
+    options?: admin.messaging.MessagingOptions,
   ) {
     return await this.firebaseAdmin.messaging().send({
       token: registrationToken,
@@ -21,17 +21,17 @@ export class FirebaseMessagingService {
       notification: {
         body: payload.notification.body,
         imageUrl: payload.notification.image,
-        title: payload.notification.title
+        title: payload.notification.title,
       },
 
-      ...options
+      ...options,
     });
   }
 
   async sendToMultipleDevices(
     registrationTokens: string[],
     payload: FcmPayload,
-    options?: admin.messaging.MessagingOptions
+    options?: admin.messaging.MessagingOptions,
   ) {
     return await this.firebaseAdmin.messaging().sendEachForMulticast({
       tokens: registrationTokens,
@@ -39,16 +39,16 @@ export class FirebaseMessagingService {
       notification: {
         body: payload.notification.body,
         imageUrl: payload.notification.image,
-        title: payload.notification.title
+        title: payload.notification.title,
       },
-      ...options
+      ...options,
     });
   }
 
   async sendToTopic(
     topic: string,
     payload: FcmPayload,
-    options?: admin.messaging.MessagingOptions
+    options?: admin.messaging.MessagingOptions,
   ) {
     return await this.firebaseAdmin.messaging().send({
       topic,
@@ -56,9 +56,9 @@ export class FirebaseMessagingService {
       notification: {
         body: payload.notification.body,
         imageUrl: payload.notification.image,
-        title: payload.notification.title
+        title: payload.notification.title,
       },
-      ...options
+      ...options,
     });
   }
 
@@ -77,7 +77,7 @@ export class FirebaseMessagingService {
   async sendToCondition(
     condition: string,
     payload: FcmPayload,
-    options?: admin.messaging.MessagingOptions
+    options?: admin.messaging.MessagingOptions,
   ) {
     return await this.firebaseAdmin.messaging().send({
       condition,
@@ -85,15 +85,15 @@ export class FirebaseMessagingService {
       notification: {
         body: payload.notification.body,
         imageUrl: payload.notification.image,
-        title: payload.notification.title
+        title: payload.notification.title,
       },
-      ...options
+      ...options,
     });
   }
 
   async sendAll(
     payload: FcmPayload,
-    options?: admin.messaging.MessagingOptions
+    options?: admin.messaging.MessagingOptions,
   ) {
     return await this.firebaseAdmin.messaging().sendEach([
       {
@@ -102,10 +102,10 @@ export class FirebaseMessagingService {
         notification: {
           body: payload.notification.body,
           imageUrl: payload.notification.image,
-          title: payload.notification.title
+          title: payload.notification.title,
         },
-        ...options
-      }
+        ...options,
+      },
     ]);
   }
 }

@@ -5,7 +5,7 @@ import {
   Post,
   Req,
   UploadedFile,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
@@ -21,7 +21,7 @@ export class UploadController {
   uploadSingle(
     @Req() req: Request,
     @UploadedFile(new ParseFilePipeBuilder().build())
-    file: Express.Multer.File
+    file: Express.Multer.File,
   ) {
     return this.uploadService.uploadSingle(req, file);
   }

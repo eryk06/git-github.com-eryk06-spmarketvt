@@ -1,7 +1,7 @@
 export type ResponseMessage = string;
 export enum ResponseStatus {
   Error = 'error',
-  Success = 'success'
+  Success = 'success',
 }
 
 export interface HttpResponseBase {

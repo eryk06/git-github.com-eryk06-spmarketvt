@@ -5,7 +5,7 @@ import { UserService } from '@/modules';
 import {
   GOOGLE_CALLBACK_URL,
   GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET
+  GOOGLE_CLIENT_SECRET,
 } from '@/configs';
 import { JwtPayload } from '../../interfaces';
 
@@ -16,7 +16,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: GOOGLE_CALLBACK_URL,
-      scope: ['email', 'profile']
+      scope: ['email', 'profile'],
     });
   }
 
@@ -24,7 +24,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    done: VerifyCallback
+    done: VerifyCallback,
   ): Promise<any> {
     try {
       if (!profile) {
@@ -37,11 +37,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
         email: email[0].value,
         picture: picture[0].value,
         accessToken,
-        refreshToken
+        refreshToken,
       };
 
       const payload: JwtPayload = await this.userService.getOne({
-        email: user.email
+        email: user.email,
       });
 
       done(null, payload);

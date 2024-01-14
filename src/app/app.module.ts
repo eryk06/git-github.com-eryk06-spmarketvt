@@ -21,7 +21,7 @@ import {
   LoggerMiddleware,
   OriginMiddleware,
 } from '../core';
-import { QueueModule } from '../configs/queue';
+import { BullModule } from '../configs/bull';
 import { SearchModule } from '../configs/search';
 import { PostgresModule } from '../configs/databases/postgres';
 import { AppController } from './app.controller';
@@ -54,7 +54,7 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
     ConfigModule,
     PostgresModule,
     RedisModule,
-    QueueModule,
+    BullModule,
     StaticModule,
     SearchModule,
     ThrottlerModule,

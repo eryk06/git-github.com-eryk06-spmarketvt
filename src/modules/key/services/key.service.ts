@@ -8,14 +8,14 @@ import { Transactional } from 'typeorm-transactional';
 export class KeyService {
   constructor(
     @InjectRepository(KeyEntity)
-    private keyRepository: Repository<KeyEntity>
+    private keyRepository: Repository<KeyEntity>,
   ) {}
 
   @Transactional()
   async createKeyToken({
     uuid,
     publicKey,
-    refreshToken
+    refreshToken,
   }: {
     uuid: any;
     publicKey: string;
@@ -23,14 +23,14 @@ export class KeyService {
   }): Promise<any> {
     try {
       const tokens = await this.keyRepository.findOne({
-        where: { user: uuid }
+        where: { user: uuid },
       });
 
       if (!tokens) {
         const tokens = await this.keyRepository.save({
           user: uuid,
           publicKey,
-          refreshToken
+          refreshToken,
         });
         return tokens ? tokens.publicKey : null;
       }
@@ -52,7 +52,7 @@ export class KeyService {
   async findByKeyUid(uuid: any): Promise<any> {
     try {
       const keyUid = await this.keyRepository.findOne({
-        where: { user: uuid }
+        where: { user: uuid },
       });
       return keyUid;
     } catch (error) {

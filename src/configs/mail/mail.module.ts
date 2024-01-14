@@ -9,16 +9,16 @@ import { ConfigService } from '@nestjs/config';
     MailerModule.forRootAsync({
       useClass: MailConfigService,
       inject: [MailConfigService],
-      extraProviders: [ConfigService]
-    })
+      extraProviders: [ConfigService],
+    }),
   ],
   providers: [
     {
       provide: MetadataKey.MAILER,
-      useClass: MailConfigService
+      useClass: MailConfigService,
     },
-    MailConfigService
+    MailConfigService,
   ],
-  exports: [MailerModule, MailConfigService, MetadataKey.MAILER]
+  exports: [MailerModule, MailConfigService, MetadataKey.MAILER],
 })
 export class MailModule {}

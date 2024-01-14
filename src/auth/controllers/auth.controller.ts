@@ -5,7 +5,7 @@ import {
   Post,
   Req,
   Res,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
@@ -19,7 +19,7 @@ import { HttpBadRequestError } from '../../core';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly sessionSerializer: SessionSerializer
+    private readonly sessionSerializer: SessionSerializer,
   ) {}
 
   @Post('register')
@@ -31,7 +31,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   async login(
     @Body() loginDTO: LoginDTO,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ): Promise<any> {
     const user = await this.authService.login(loginDTO, response);
 
@@ -72,7 +72,7 @@ export class AuthController {
   @Get('csrf')
   async getCSRFToken(
     @Req() request: Request,
-    @Res({ passthrough: true }) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
     const csrfToken = request.csrfToken();
 

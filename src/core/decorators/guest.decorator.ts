@@ -11,13 +11,13 @@ export function WhenGuest(option: GuestRequestOption) {
   return (target: any, propertyName: string) => {
     SetMetadata(GUEST_REQUEST_METADATA, {
       ...reflector.get(GUEST_REQUEST_METADATA, target),
-      [propertyName]: option
+      [propertyName]: option,
     })(target);
   };
 }
 
 export const getGuestRequestOptions = (
-  target: any
+  target: any,
 ): Record<string, GuestRequestOption> => {
   return reflector.get(GUEST_REQUEST_METADATA, target);
 };

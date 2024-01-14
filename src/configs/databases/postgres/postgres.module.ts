@@ -16,16 +16,16 @@ import { DataSource } from 'typeorm';
         }
 
         return addTransactionalDataSource(new DataSource(options));
-      }
-    })
+      },
+    }),
   ],
   providers: [
     {
       provide: MetadataKey.POSTGRES,
-      useClass: PostgresConfigService
+      useClass: PostgresConfigService,
     },
-    PostgresConfigService
+    PostgresConfigService,
   ],
-  exports: [TypeOrmModule, PostgresConfigService, MetadataKey.POSTGRES]
+  exports: [TypeOrmModule, PostgresConfigService, MetadataKey.POSTGRES],
 })
 export class PostgresModule {}

@@ -5,7 +5,7 @@ import { NODE_ENV } from '../../configs';
 
 const logger = createLogger({
   scope: 'Service Discord',
-  time: NODE_ENV === 'development'
+  time: NODE_ENV === 'development',
 });
 
 @Injectable()

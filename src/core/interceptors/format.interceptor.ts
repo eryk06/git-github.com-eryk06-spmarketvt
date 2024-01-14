@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   HttpStatus,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class FormatResponseInterceptor<T>
 {
   intercept(
     context: ExecutionContext,
-    next: CallHandler
+    next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((res) => {
@@ -31,15 +31,15 @@ export class FormatResponseInterceptor<T>
             statusCode: HttpStatus.OK,
             message: res?.message || 'Response successfully',
             meta: res.meta,
-            data: res.data || null
+            data: res.data || null,
           };
 
         return {
           statusCode: res?.status || HttpStatus.OK,
           message: res?.message || 'Response successfully',
-          data: res?.data || null
+          data: res?.data || null,
         };
-      })
+      }),
     );
   }
 }

@@ -5,7 +5,7 @@ export class HttpForbiddenError extends HttpException {
   constructor(error?: any) {
     super(
       error || TEXT.HTTP_PARAMS_PERMISSION_ERROR_DEFAULT,
-      HttpStatus.FORBIDDEN
+      HttpStatus.FORBIDDEN,
     );
   }
 }

@@ -3,6 +3,6 @@ import { AccessControlService } from './access-control.service';
 
 @Module({
   providers: [AccessControlService],
-  exports: [AccessControlService]
+  exports: [AccessControlService],
 })
 export class SharedModule {}

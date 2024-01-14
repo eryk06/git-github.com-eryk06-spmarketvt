@@ -46,45 +46,45 @@ export const createLogger = (opts?: LoggerOptions) => ({
     label: '⚪',
     consoler: console.log,
     color: chalk.cyanBright,
-    ...opts
+    ...opts,
   }),
   info: renderLogger({
     label: '🔵',
     consoler: console.info,
     color: chalk.greenBright,
-    ...opts
+    ...opts,
   }),
   warn: renderLogger({
     label: '🟠',
     consoler: console.warn,
     color: chalk.yellowBright,
-    ...opts
+    ...opts,
   }),
   error: renderLogger({
     label: '🔴',
     consoler: console.error,
     color: chalk.redBright,
-    ...opts
+    ...opts,
   }),
   debug: renderLogger({
     label: '🟤',
     consoler: console.debug,
     color: chalk.cyanBright,
-    ...opts
+    ...opts,
   }),
   // aliases
   success: renderLogger({
     label: '🟢',
     consoler: console.log,
     color: chalk.greenBright,
-    ...opts
+    ...opts,
   }),
   failure: renderLogger({
     label: '🔴',
     consoler: console.warn,
     color: chalk.redBright,
-    ...opts
-  })
+    ...opts,
+  }),
 });
 
 export default createLogger();

@@ -12,7 +12,7 @@ export class TypeormExceptionFilter implements ExceptionFilter {
     const message = exception['message'];
     const errors = {
       code,
-      message
+      message,
     };
     if (code === '23505') {
       errors['message'] = exception['detail'];
@@ -21,7 +21,7 @@ export class TypeormExceptionFilter implements ExceptionFilter {
     return response.status(statusCode).json({
       statusCode,
       success: false,
-      errors
+      errors,
     });
   }
 }

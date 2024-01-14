@@ -4,6 +4,6 @@ import { MessageService, RoomService } from './services';
 
 @Module({
   controllers: [MessageController, RoomController],
-  providers: [MessageService, RoomService]
+  providers: [MessageService, RoomService],
 })
 export class ChatModule {}

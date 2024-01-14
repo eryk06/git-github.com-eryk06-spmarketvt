@@ -31,8 +31,8 @@ export class UploadService {
       throw new ForbiddenException([
         {
           field: 'file',
-          message: err.message
-        }
+          message: err.message,
+        },
       ]);
     }
   }

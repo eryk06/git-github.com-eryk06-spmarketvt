@@ -8,7 +8,7 @@ import * as crypto from 'crypto';
 export class ApiKeyService {
   constructor(
     @InjectRepository(ApiKeyEntity)
-    private apiKeyRepository: Repository<ApiKeyEntity>
+    private apiKeyRepository: Repository<ApiKeyEntity>,
   ) {}
 
   async findById(key: any): Promise<any> {
@@ -23,7 +23,7 @@ export class ApiKeyService {
       // console.log(newKey);
 
       const objKey = await this.apiKeyRepository.findOne({
-        where: { key, status: true }
+        where: { key, status: true },
       });
 
       return objKey;

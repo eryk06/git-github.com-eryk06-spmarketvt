@@ -2,7 +2,7 @@ import {
   FindOptionsOrder,
   FindOptionsWhere,
   Repository,
-  SelectQueryBuilder
+  SelectQueryBuilder,
 } from 'typeorm';
 import { PaginationToQuery } from './paginationToQuery';
 import { BaseEntity } from 'src/common/base';
@@ -32,7 +32,7 @@ export function getQueryBuilder<Entity extends BaseEntity>(
 
 function addRelations<Entity extends BaseEntity>(
   queryBuilder: SelectQueryBuilder<Entity>,
-  relations: string[]
+  relations: string[],
 ) {
   relations.forEach((relation) => {
     queryBuilder.leftJoinAndSelect(`entity.${relation}`, relation);
@@ -42,7 +42,7 @@ function addRelations<Entity extends BaseEntity>(
 
 function addWhere<Entity extends BaseEntity>(
   queryBuilder: SelectQueryBuilder<Entity>,
-  where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[]
+  where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
 ) {
   const whereKeys = Object.keys(where);
   for (let i = 0; i < whereKeys.length; i++) {
@@ -63,7 +63,7 @@ function addWhere<Entity extends BaseEntity>(
 function addQuery<Entity extends BaseEntity>(
   queryBuilder: SelectQueryBuilder<Entity>,
   where: FindOptionsWhere<Entity> | FindOptionsWhere<Entity>[],
-  query: any
+  query: any,
 ) {
   const whereKeys = Object.keys(where);
   const queryKeys = Object.keys(query);

@@ -19,7 +19,7 @@ export class Meta {
     limit: number,
     total: number,
     total_page: number,
-    query?: QueryOptions
+    query?: QueryOptions,
   ) {
     this.page = page;
     this.limit = limit;
@@ -91,7 +91,7 @@ export class QueryOptions {
       _page: page,
       _limit: limit,
       _sort: sort,
-      _order: order
+      _order: order,
     };
   }
 }

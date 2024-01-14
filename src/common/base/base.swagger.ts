@@ -3,21 +3,21 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
-  getSchemaPath
+  getSchemaPath,
 } from '@nestjs/swagger';
 import {
   ReferenceObject,
-  SchemaObject
+  SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export function OkResponse(
   $ref: any,
   isPagination = false,
-  data?: SchemaObject | ReferenceObject
+  data?: SchemaObject | ReferenceObject,
 ) {
   const properties: Record<string, SchemaObject | ReferenceObject> = {
     statusCode: { example: 200 },
-    success: { example: true }
+    success: { example: true },
   };
   if ($ref) {
     let metadata: SchemaObject | ReferenceObject | undefined;
@@ -25,15 +25,15 @@ export function OkResponse(
     if (isPagination) {
       refData = {
         type: 'array',
-        items: { $ref: getSchemaPath($ref) }
+        items: { $ref: getSchemaPath($ref) },
       };
       metadata = {
         example: {
           limit: 0,
           page: 0,
           totalItems: 0,
-          totalPages: 0
-        }
+          totalPages: 0,
+        },
       };
     }
     Object.assign(properties, { data: refData });
@@ -48,8 +48,8 @@ export function OkResponse(
 
   return ApiOkResponse({
     schema: {
-      properties
-    }
+      properties,
+    },
   });
 }
 
@@ -63,47 +63,47 @@ export function CreatedResponse($ref: any) {
             result: {
               type: 'array',
               items: {
-                $ref: getSchemaPath($ref)
-              }
-            }
-          }
-        }
-      }
-    }
+                $ref: getSchemaPath($ref),
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
 export function ApiCreate($ref: any, name?: string) {
   return applyDecorators(
     ApiOperation({ summary: 'Create new ' + name }),
-    CreatedResponse($ref)
+    CreatedResponse($ref),
   );
 }
 
 export function ApiGetAll($ref: any, name?: string) {
   return applyDecorators(
     ApiOperation({ summary: 'Get all ' + name }),
-    OkResponse($ref, true)
+    OkResponse($ref, true),
   );
 }
 
 export function ApiGetDetail($ref: any, name?: string) {
   return applyDecorators(
     ApiOperation({ summary: 'Get detail ' + name }),
-    OkResponse($ref)
+    OkResponse($ref),
   );
 }
 
 export function ApiUpdate($ref: any, name?: string) {
   return applyDecorators(
     ApiOperation({ summary: 'Update ' + name }),
-    OkResponse($ref)
+    OkResponse($ref),
   );
 }
 
 export function ApiDelete($ref: any, name?: string) {
   return applyDecorators(
     ApiOperation({ summary: 'Delete ' + name }),
-    OkResponse($ref)
+    OkResponse($ref),
   );
 }

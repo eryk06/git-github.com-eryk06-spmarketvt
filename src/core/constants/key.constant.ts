@@ -3,12 +3,12 @@ export const MetadataKey = {
   POSTGRES: 'postgres',
   ELASTICSEARCH: 'elasticsearch',
   MAILER: 'mailer',
-  DISCORD: 'discord'
+  DISCORD: 'discord',
 };
 
 export const TokenExpires = {
   accessToken: '15d',
   refreshToken: '30d',
   redisAccessToken: 60 * 60 * 24 * 15,
-  redisRefreshToken: 60 * 60 * 24 * 30
+  redisRefreshToken: 60 * 60 * 24 * 30,
 };

@@ -17,6 +17,8 @@
     "totp",
     "pino",
     "spmarketvt",
-    "eryk"
+    "eryk",
+    "rabbitmq",
+    "golevelup"
   ]
 }

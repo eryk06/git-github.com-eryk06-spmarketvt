@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   ElasticsearchModuleOptions,
-  ElasticsearchOptionsFactory
+  ElasticsearchOptionsFactory,
 } from '@nestjs/elasticsearch';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class SearchConfigService implements ElasticsearchOptionsFactory {
       node: 'http://localhost:9200',
       maxRetries: 10,
       requestTimeout: 60000,
-      sniffOnStart: true
+      sniffOnStart: true,
     };
   }
 }

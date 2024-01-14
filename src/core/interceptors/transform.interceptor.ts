@@ -10,14 +10,14 @@ export class TransformInterceptor<T> implements NestInterceptor {
   constructor(private readonly constructorClass?: BaseConstructor<T>) {}
   intercept(
     context: ExecutionContext,
-    next: CallHandler<any>
+    next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
       map((value: T) => {
         return plainToInstance(this.constructorClass, value, {
-          excludeExtraneousValues: true
+          excludeExtraneousValues: true,
         });
-      })
+      }),
     );
   }
 }

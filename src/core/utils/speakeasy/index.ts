@@ -3,7 +3,7 @@ import {
   SPEAKEASY_ENCODING,
   SPEAKEASY_LENGTH,
   SPEAKEASY_SECRET,
-  SPEAKEASY_STEP
+  SPEAKEASY_STEP,
 } from '@/configs/environments';
 import * as speakeasy from 'speakeasy';
 
@@ -12,7 +12,7 @@ export class SpeakeasyUtil {
     return speakeasy.generateSecret({
       length: 20,
       name: SPEAKEASY_SECRET,
-      issuer: SPEAKEASY_SECRET
+      issuer: SPEAKEASY_SECRET,
     }).base32;
   }
 
@@ -25,7 +25,7 @@ export class SpeakeasyUtil {
       digits: SPEAKEASY_LENGTH,
       step: SPEAKEASY_STEP,
       epoch: Date.now(),
-      time: Date.now()
+      time: Date.now(),
     });
   }
 
@@ -37,7 +37,7 @@ export class SpeakeasyUtil {
       digits: SPEAKEASY_LENGTH,
       epoch: Date.now(),
       step: SPEAKEASY_STEP,
-      time: Date.now()
+      time: Date.now(),
     });
   }
 }

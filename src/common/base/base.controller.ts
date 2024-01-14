@@ -22,7 +22,7 @@ export function BaseController<Entity extends BaseEntity>() {
         {},
         //@ts-ignore
         { createdAt: 'DESC' },
-        ...this.relations
+        ...this.relations,
       );
     }
 

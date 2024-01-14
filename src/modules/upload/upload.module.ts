@@ -4,6 +4,6 @@ import { UploadService } from './services/upload.service';
 
 @Module({
   controllers: [UploadController],
-  providers: [UploadService]
+  providers: [UploadService],
 })
 export class UploadModule {}
