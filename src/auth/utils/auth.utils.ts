@@ -6,18 +6,28 @@ import {
   REFRESH_TOKEN_EXPIRATION_TIME,
 } from '../../configs';
 
-async function createToken({ payload, publicKey, privateKey }): Promise<any> {
+async function createToken({
+  payload,
+  publicKey,
+  privateKey,
+  refresh_token,
+}: {
+  payload: any;
+  publicKey: any;
+  privateKey: any;
+  refresh_token?: any;
+}): Promise<any> {
   try {
     const access_token_expiration_ms = ms(ACCESS_TOKEN_EXPIRATION_TIME);
     const refresh_token_expiration_ms = ms(REFRESH_TOKEN_EXPIRATION_TIME);
 
     const access_token = jwt.sign(payload, privateKey, {
-      algorithm: 'RS256',
+      algorithm: 'RS512',
       expiresIn: access_token_expiration_ms,
     });
 
     const refresh_token = jwt.sign(payload, privateKey, {
-      algorithm: 'RS256',
+      algorithm: 'RS512',
       expiresIn: refresh_token_expiration_ms,
     });
 
@@ -28,7 +38,7 @@ async function createToken({ payload, publicKey, privateKey }): Promise<any> {
       if (error) {
         throw error;
       } else {
-        console.log(decoded);
+        return decoded;
       }
     });
 

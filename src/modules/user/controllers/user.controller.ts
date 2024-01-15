@@ -11,7 +11,7 @@ export class UserController {
     const users = await this.userService.getAllUser();
     return {
       message: 'Get all users successfully',
-      users,
+      data: users,
     };
   }
 }

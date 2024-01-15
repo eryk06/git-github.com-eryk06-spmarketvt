@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { KeyService } from './services/key.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApiKeyController } from './controllers/api-key.controller';
 import { ApiKeyEntity, KeyEntity } from './entities';
 import { ApiKeyService } from './services';
-import { ApiKeyController } from './controllers/api-key.controller';
+import { KeyService } from './services/key.service';
+import { UserEntity } from '../user';
 
 @Module({
   imports: [TypeOrmModule.forFeature([KeyEntity, ApiKeyEntity])],

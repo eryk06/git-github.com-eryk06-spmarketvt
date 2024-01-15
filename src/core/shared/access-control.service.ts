@@ -12,8 +12,8 @@ export class AccessControlService {
   private priority: number = 1;
 
   constructor() {
-    this.buildRoles([ROLE.GUEST, ROLE.USER, ROLE.ADMIN]);
-    this.buildRoles([ROLE.MODERATOR, ROLE.ADMIN]);
+    this.buildRoles([ROLE.USER, ROLE.SHOP, ROLE.ADMIN]);
+    this.buildRoles([ROLE.ADMIN]);
   }
 
   private buildRoles(roles: ROLE[]) {

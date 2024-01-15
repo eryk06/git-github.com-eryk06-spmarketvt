@@ -22,7 +22,6 @@ import {
   HttpExceptionFilter,
   ResponseTransformInterceptor,
   TimeoutInterceptor,
-  TransformInterceptor,
   TypeormExceptionFilter,
   ValidationPipe,
 } from './core';
@@ -67,7 +66,6 @@ async function bootstrap() {
     new TimeoutInterceptor(),
     new LoggerErrorInterceptor(),
     new ResponseTransformInterceptor(),
-    new TransformInterceptor(),
   );
 
   app.useGlobalFilters(new HttpExceptionFilter(), new TypeormExceptionFilter());

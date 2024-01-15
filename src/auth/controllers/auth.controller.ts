@@ -6,6 +6,7 @@ import {
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
@@ -13,7 +14,7 @@ import { Request, Response } from 'express';
 import { GoogleGuard, LocalAuthGuard } from '../guards';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { SessionSerializer } from '../serializer';
-import { HttpBadRequestError } from '../../core';
+import { HttpBadRequestError, TransformInterceptor } from '../../core';
 
 @Controller('auth')
 export class AuthController {
@@ -28,6 +29,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @UseInterceptors(TransformInterceptor)
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   async login(
     @Body() loginDTO: LoginDTO,

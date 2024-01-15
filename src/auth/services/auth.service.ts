@@ -52,6 +52,10 @@ export class AuthService {
           },
         });
 
+        console.log(user);
+
+        console.log(publicKey);
+
         const publicKeyString = await this.keyService.createKeyToken({
           uuid: user.uuid,
           publicKey: publicKey,
@@ -61,7 +65,11 @@ export class AuthService {
           throw new HttpBadRequestError('Create token failed');
         }
 
+        console.log('publicKeyString', publicKeyString);
+
         const publicKeyObject = crypto.createPublicKey(publicKeyString);
+
+        console.log('debug2', publicKeyObject);
 
         const payload: JwtPayload = {
           uuid: user.uuid,
@@ -97,7 +105,7 @@ export class AuthService {
   async login(
     loginDTO: LoginDTO,
     response: Response,
-    refreshToken = null,
+    refresh_token = null,
   ): Promise<any> {
     try {
       const { email } = loginDTO;
@@ -107,11 +115,11 @@ export class AuthService {
       const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
         modulusLength: 2048,
         publicKeyEncoding: {
-          type: 'pkcs1',
+          type: 'spki',
           format: 'pem',
         },
         privateKeyEncoding: {
-          type: 'pkcs1',
+          type: 'pkcs8',
           format: 'pem',
         },
       });
