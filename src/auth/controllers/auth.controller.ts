@@ -33,7 +33,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   async login(
     @Body() loginDTO: LoginDTO,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: any,
   ): Promise<any> {
     const user = await this.authService.login(loginDTO, response);
 

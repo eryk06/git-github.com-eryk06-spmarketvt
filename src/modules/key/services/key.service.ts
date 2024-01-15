@@ -11,35 +11,33 @@ export class KeyService {
     private keyRepository: Repository<KeyEntity>,
   ) {}
 
-  @Transactional()
   async createKeyToken({
     uuid,
     publicKey,
-    refreshToken,
+    refresh_token,
   }: {
-    uuid: any;
-    publicKey: string;
-    refreshToken?: any;
+    uuid?: any;
+    publicKey?: string;
+    refresh_token?: string;
   }): Promise<any> {
     try {
-      const tokens = await this.keyRepository.findOne({
-        where: { user: uuid },
-      });
+      const publicKeyString = publicKey.toString();
+
+      const tokens = await this.keyRepository
+        .createQueryBuilder('key')
+        .where('key.user = :uuid', { uuid })
+        .getOne();
 
       if (!tokens) {
         const tokens = await this.keyRepository.save({
           user: uuid,
-          publicKey,
-          refreshToken,
+          publicKey: publicKeyString,
         });
+
         return tokens ? tokens.publicKey : null;
       }
 
       tokens.publicKey = publicKey;
-
-      if (refreshToken) {
-        tokens.refreshToken = refreshToken;
-      }
 
       await this.keyRepository.save(tokens);
 

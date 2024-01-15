@@ -6,17 +6,7 @@ import {
   REFRESH_TOKEN_EXPIRATION_TIME,
 } from '../../configs';
 
-async function createToken({
-  payload,
-  publicKey,
-  privateKey,
-  refresh_token,
-}: {
-  payload: any;
-  publicKey: any;
-  privateKey: any;
-  refresh_token?: any;
-}): Promise<any> {
+async function createToken({ payload, publicKey, privateKey }): Promise<any> {
   try {
     const access_token_expiration_ms = ms(ACCESS_TOKEN_EXPIRATION_TIME);
     const refresh_token_expiration_ms = ms(REFRESH_TOKEN_EXPIRATION_TIME);

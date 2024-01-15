@@ -12,14 +12,17 @@ export class KeyEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 600 })
   publicKey: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  refreshToken: string;
+  @Column({
+    type: 'varchar',
+    length: 600,
+    default: null,
+  })
+  refresh_token: string;
 
-  @Column({ type: 'varchar', length: 255, default: [] })
-  refreshTokensUsed: Array<string>;
+  @Column({ type: 'varchar', length: 600, default: [] })
+  refresh_tokens_used: string[];
 
-  @Column({ type: 'varchar', length: 255 })
-  @OneToOne(() => UserEntity)
+  @OneToOne(() => UserEntity, (user) => user.uuid)
   @JoinColumn()
   user: UserEntity;
 
