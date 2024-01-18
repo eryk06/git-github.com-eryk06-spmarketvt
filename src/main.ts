@@ -68,7 +68,7 @@ async function bootstrap() {
     new ResponseTransformInterceptor(),
   );
 
-  app.useGlobalFilters(new HttpExceptionFilter(), new TypeormExceptionFilter());
+  app.useGlobalFilters(new TypeormExceptionFilter(), new HttpExceptionFilter());
 
   // middlewares
   app.use(helmet());

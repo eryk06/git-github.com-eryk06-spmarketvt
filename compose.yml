@@ -1,5 +1,11 @@
 version: '3.8'
 
+networks:
+  spmarketvt-network:
+    driver: bridge
+    name: spmarketvt-network
+    external: true
+
 services:
   # runner:
   #   image: myoung34/github-runner:latest
@@ -125,12 +131,6 @@ services:
       ADMINER_PLUGINS: tables-filter
     networks:
       - spmarketvt-network
-
-networks:
-  spmarketvt-network:
-    driver: bridge
-    name: spmarketvt-network
-    external: true
 
 volumes:
   backend:

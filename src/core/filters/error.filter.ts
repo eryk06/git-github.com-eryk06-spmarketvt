@@ -46,6 +46,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         data.message || `Invalid API: ${request.method} > ${request.url}`;
     }
 
-    return response.status(errorInfo?.status || exceptionStatus).jsonp(data);
+    return response.status(errorInfo?.status || exceptionStatus).json(data);
   }
 }
