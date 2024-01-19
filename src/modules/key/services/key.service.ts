@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KeyEntity } from '../entities';
 import { Repository } from 'typeorm';
-import { Transactional } from 'typeorm-transactional';
 
 @Injectable()
 export class KeyService {
@@ -21,10 +20,14 @@ export class KeyService {
     refresh_token?: string;
   }): Promise<any> {
     try {
+      const masterQueryRunner =
+        this.keyRepository.manager.connection.createQueryRunner('master');
+
       const publicKeyString = publicKey.toString();
 
       const tokens = await this.keyRepository
-        .createQueryBuilder('key')
+        .createQueryBuilder('key', masterQueryRunner)
+        .setQueryRunner(masterQueryRunner)
         .where('key.user = :uuid', { uuid })
         .getOne();
 

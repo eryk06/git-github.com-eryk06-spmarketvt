@@ -36,7 +36,12 @@ export class UserService extends BaseService<UserEntity> {
   // get all users
   async getAllUser(): Promise<UserEntity[]> {
     try {
-      const users = await this.userRepository.find();
+      const slaveQueryRunner =
+        this.userRepository.manager.connection.createQueryRunner('slave');
+      const users = await this.userRepository
+        .createQueryBuilder('user', slaveQueryRunner)
+        .cache(this.redisService, 60 * 60 * 24)
+        .getMany();
       return users;
     } catch (error) {
       throw error;

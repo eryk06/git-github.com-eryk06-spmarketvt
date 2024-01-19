@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ROLE_KEY } from '../decorators';
 
 export class TokenDTO {
-  uuid: number;
+  uuid: string;
   role: ROLE;
 }
 
@@ -26,12 +26,12 @@ export class RoleGuard implements CanActivate {
     ]);
 
     const request = context.switchToHttp().getRequest();
-    const accessToken = request['accessToken'] as TokenDTO;
+    const access_token = request['access_token'] as TokenDTO;
 
     for (const role of requiredRoles) {
       const result = this.accessControlService.isAuthorized({
         requiredRole: role,
-        currentRole: accessToken.role,
+        currentRole: access_token.role,
       });
 
       if (result) return true;

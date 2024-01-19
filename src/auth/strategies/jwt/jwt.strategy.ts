@@ -1,25 +1,26 @@
-import { RedisService } from '@/configs';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { JwtPayload } from '../../interfaces';
 import { UserService } from '../../../modules';
-import { Request } from 'express';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { ParsedQs } from 'qs';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(
-    private readonly redisService: RedisService,
-    private readonly userService: UserService,
-  ) {
+  constructor(private readonly userService: UserService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
       passReqToCallback: true,
-      secretOrKeyProvider: () => {
-        return process.env.JWT_SECRET;
+      secretOrKeyProvider: (req, done) => {
+        const { authorization } = req.headers;
+
+        if (!authorization) {
+          return done(new UnauthorizedException('Unauthorized'), null);
+        }
+
+        const token = authorization.split(' ')[1];
+
+        return done(null, token);
       },
     } as StrategyOptions);
   }

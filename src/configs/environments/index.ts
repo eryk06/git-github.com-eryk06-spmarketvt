@@ -1,158 +1,99 @@
 import * as dotenv from 'dotenv';
-import * as Joi from 'joi';
 
 // config use env
 dotenv.config();
 
 // environment
-const NODE_ENV: string = Joi.string()
-  .valid('development', 'production', 'test')
-  .required()
-  .validate(process.env.NODE_ENV).value;
-const PORT: number = Joi.number().required().validate(process.env.PORT).value;
-const SERVER_URL: string = Joi.string()
-  .required()
-  .validate(process.env.SERVER_URL).value;
+const NODE_ENV: string = process.env.NODE_ENV;
+const PORT: number = +process.env.PORT;
+const SERVER_URL: string = process.env.SERVER_URL;
 
 // session
-const SESSION_SECRET: string = Joi.string()
-  .required()
-  .validate(process.env.SESSION_SECRET).value;
+const SESSION_SECRET: string = process.env.SESSION_SECRET;
 
-// postgres
-const POSTGRES_HOST: string = Joi.string()
-  .required()
-  .validate(process.env.POSTGRES_HOST).value;
-const POSTGRES_PORT: number = Joi.number()
-  .required()
-  .validate(process.env.POSTGRES_PORT).value;
-const POSTGRES_USER: string = Joi.string()
-  .required()
-  .validate(process.env.POSTGRES_USER).value;
-const POSTGRES_PASSWORD: string = Joi.string()
-  .required()
-  .validate(process.env.POSTGRES_PASSWORD).value;
-const POSTGRES_DB: string = Joi.string()
-  .required()
-  .validate(process.env.POSTGRES_DB).value;
+// postgres master
+const POSTGRESQL_REPLICATION_USER: string =
+  process.env.POSTGRESQL_REPLICATION_USER;
+const POSTGRESQL_REPLICATION_PASSWORD: string =
+  process.env.POSTGRESQL_REPLICATION_PASSWORD;
+const POSTGRESQL_USERNAME: string = process.env.POSTGRESQL_USERNAME;
+const POSTGRESQL_PASSWORD: string = process.env.POSTGRESQL_PASSWORD;
+const POSTGRESQL_DATABASE: string = process.env.POSTGRESQL_DATABASE;
+const POSTGRESQL_MASTER_HOST: string = process.env.POSTGRESQL_MASTER_HOST;
+const POSTGRESQL_MASTER_PORT_NUMBER: number =
+  +process.env.POSTGRESQL_MASTER_PORT_NUMBER;
+
+// postgres slave
+const POSTGRESQL_SLAVE_HOST: string = process.env.POSTGRESQL_SLAVE_HOST;
+const POSTGRESQL_SLAVE_PORT_NUMBER: number =
+  +process.env.POSTGRESQL_SLAVE_PORT_NUMBER;
 
 // redis
-const REDIS_HOST: string = Joi.string()
-  .required()
-  .validate(process.env.REDIS_HOST).value;
-const REDIS_PORT: number = Joi.number()
-  .required()
-  .validate(process.env.REDIS_PORT).value;
+const REDIS_HOST: string = process.env.REDIS_HOST;
+const REDIS_PORT: number = +process.env.REDIS_PORT;
 
 // throttle
-const THROTTLE_TTL: number = Joi.number()
-  .required()
-  .validate(process.env.THROTTLE_TTL).value;
-const THROTTLE_LIMIT: number = Joi.number()
-  .required()
-  .validate(process.env.THROTTLE_LIMIT).value;
+const THROTTLE_TTL: number = +process.env.THROTTLE_TTL;
+const THROTTLE_LIMIT: number = +process.env.THROTTLE_LIMIT;
 
 // jwt
-const SECRET_KEY: string = Joi.string()
-  .required()
-  .validate(process.env.SECRET_KEY).value;
-const SECRET_KEY_IV: string = Joi.string()
-  .required()
-  .validate(process.env.SECRET_KEY_IV).value;
-const TOKEN_BUFFER: string = Joi.string()
-  .required()
-  .validate(process.env.TOKEN_BUFFER).value;
-const ACCESS_TOKEN_EXPIRATION_TIME: string = Joi.string()
-  .required()
-  .validate(process.env.ACCESS_TOKEN_EXPIRATION_TIME).value;
-const REFRESH_TOKEN_EXPIRATION_TIME: string = Joi.string()
-  .required()
-  .validate(process.env.REFRESH_TOKEN_EXPIRATION_TIME).value;
+const SECRET_KEY: string = process.env.SECRET_KEY;
+const SECRET_KEY_IV: string = process.env.SECRET_KEY_IV;
+const TOKEN_BUFFER: string = process.env.TOKEN_BUFFER;
+const ACCESS_TOKEN_EXPIRATION_TIME: string =
+  process.env.ACCESS_TOKEN_EXPIRATION_TIME;
+const REFRESH_TOKEN_EXPIRATION_TIME: string =
+  process.env.REFRESH_TOKEN_EXPIRATION_TIME;
 
 // cloudinary
-const FOLDER_NAME: string = Joi.string()
-  .required()
-  .validate(process.env.FOLDER_NAME).value;
-const CLOUD_NAME: string = Joi.string()
-  .required()
-  .validate(process.env.CLOUD_NAME).value;
-const API_KEY: string = Joi.string()
-  .required()
-  .validate(process.env.API_KEY).value;
-const API_SECRET: string = Joi.string()
-  .required()
-  .validate(process.env.API_SECRET).value;
+const FOLDER_NAME: string = process.env.FOLDER_NAME;
+const CLOUD_NAME: string = process.env.CLOUD_NAME;
+const API_KEY: string = process.env.API_KEY;
+const API_SECRET: string = process.env.API_SECRET;
 
 // mail
-const MAIL_HOST: string = Joi.string()
-  .required()
-  .validate(process.env.MAIL_HOST).value;
-const MAIL_PORT: number = Joi.number()
-  .required()
-  .validate(process.env.MAIL_PORT).value;
-const MAIL_USER: string = Joi.string()
-  .required()
-  .validate(process.env.MAIL_USER).value;
-const MAIL_PASSWORD: string = Joi.string()
-  .required()
-  .validate(process.env.MAIL_PASSWORD).value;
+const MAIL_HOST: string = process.env.MAIL_HOST;
+const MAIL_PORT: number = +process.env.MAIL_PORT;
+const MAIL_USER: string = process.env.MAIL_USER;
+const MAIL_PASSWORD: string = process.env.MAIL_PASSWORD;
 
 // language
-const FALLBACK_LANGUAGE: string = Joi.string()
-  .required()
-  .validate(process.env.FALLBACK_LANGUAGE).value;
+const FALLBACK_LANGUAGE: string = process.env.FALLBACK_LANGUAGE;
 
 // speakeasy
-const SPEAKEASY_SECRET: string = Joi.string()
-  .required()
-  .validate(process.env.SPEAKEASY_SECRET).value;
-const SPEAKEASY_LENGTH: number = Joi.number().validate(
-  process.env.SPEAKEASY_LENGTH,
-).value;
-const SPEAKEASY_ENCODING: string = Joi.string().validate(
-  process.env.SPEAKEASY_ENCODING,
-).value;
-const SPEAKEASY_ALGORITHM: string = Joi.string().validate(
-  process.env.SPEAKEASY_ALGORITHM,
-).value;
-const SPEAKEASY_STEP: number = Joi.number().validate(
-  process.env.SPEAKEASY_STEP,
-).value;
+const SPEAKEASY_SECRET: string = process.env.SPEAKEASY_SECRET;
+const SPEAKEASY_LENGTH: number = +process.env.SPEAKEASY_LENGTH;
+const SPEAKEASY_ENCODING: string = process.env.SPEAKEASY_ENCODING;
+
+const SPEAKEASY_ALGORITHM: string = process.env.SPEAKEASY_ALGORITHM;
+const SPEAKEASY_STEP: number = +process.env.SPEAKEASY_STEP;
 
 // google
-const GOOGLE_CLIENT_ID: string = Joi.string()
-  .required()
-  .validate(process.env.GOOGLE_CLIENT_ID).value;
-const GOOGLE_CLIENT_SECRET: string = Joi.string()
-  .required()
-  .validate(process.env.GOOGLE_CLIENT_SECRET).value;
-const GOOGLE_CALLBACK_URL: string = Joi.string()
-  .required()
-  .validate(process.env.GOOGLE_CALLBACK_URL).value;
+const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET: string = process.env.GOOGLE_CLIENT_SECRET;
+const GOOGLE_CALLBACK_URL: string = process.env.GOOGLE_CALLBACK_URL;
 
 // Algorithm
-const ALGORITHM_AES: string = Joi.string()
-  .required()
-  .validate(process.env.ALGORITHM_AES).value;
-const ALGORITHM_SHA: string = Joi.string()
-  .required()
-  .validate(process.env.ALGORITHM_SHA).value;
+const ALGORITHM_AES: string = process.env.ALGORITHM_AES;
+const ALGORITHM_SHA: string = process.env.ALGORITHM_SHA;
 
 // Discord
-const TOKEN_BOT: string = Joi.string()
-  .required()
-  .validate(process.env.TOKEN_BOT).value;
+const TOKEN_BOT: string = process.env.TOKEN_BOT;
 
 export {
   NODE_ENV,
   PORT,
   SERVER_URL,
   SESSION_SECRET,
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_DB,
+  POSTGRESQL_REPLICATION_USER,
+  POSTGRESQL_REPLICATION_PASSWORD,
+  POSTGRESQL_USERNAME,
+  POSTGRESQL_PASSWORD,
+  POSTGRESQL_DATABASE,
+  POSTGRESQL_MASTER_HOST,
+  POSTGRESQL_MASTER_PORT_NUMBER,
+  POSTGRESQL_SLAVE_HOST,
+  POSTGRESQL_SLAVE_PORT_NUMBER,
   REDIS_HOST,
   REDIS_PORT,
   THROTTLE_TTL,

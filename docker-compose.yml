@@ -44,26 +44,47 @@ services:
     depends_on:
       - backend
 
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  postgresql-master:
+    container_name: postgresql-master
+    image: bitnami/postgresql:latest
     restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      TZ: 'Asia/Ho_Chi_Minh'
-      PGTZ: 'Asia/Ho_Chi_Minh'
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${POSTGRESQL_MASTER_PORT_NUMBER}:${POSTGRESQL_MASTER_PORT_NUMBER}
     volumes:
-      - docker-nest-postgres:/var/lib/postgresql/data
+      - postgresql_master_data:/bitnami/postgresql
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
     networks:
       - spmarketvt-network
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
     healthcheck:
-      test: ['CMD', 'pg_isready', '-U', '${POSTGRES_USER}']
+      test: ['CMD', 'pg_isready']
       interval: 30s
       timeout: 10s
       retries: 5
+
+  postgresql-slave:
+    container_name: postgresql-slave
+    image: bitnami/postgresql:latest
+    restart: unless-stopped
+    ports:
+      - ${POSTGRESQL_MASTER_PORT_NUMBER}
+    depends_on:
+      - postgresql-master
+    networks:
+      - spmarketvt-network
+    environment:
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_MASTER_HOST=${POSTGRESQL_MASTER_HOST}
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT_NUMBER}
 
   backend:
     container_name: backend
@@ -78,7 +99,7 @@ services:
       - ${PORT}:${PORT}
     command: pnpm dev
     depends_on:
-      - postgres
+      - postgresql-master
       - redis
     volumes:
       - .:/app
@@ -125,7 +146,7 @@ services:
     ports:
       - ${ADMINER_PORT}:${ADMINER_PORT}
     depends_on:
-      - postgres
+      - postgresql-master
     environment:
       ADMINER_DESIGN: dracula
       ADMINER_PLUGINS: tables-filter
@@ -134,16 +155,12 @@ services:
 
 volumes:
   backend:
-    name: backend
     driver: local
-  docker-nest-postgres:
-    name: docker-nest-postgres
+  postgresql_master_data:
     driver: local
   adminer:
-    name: adminer
     driver: local
   redis:
-    name: redis
     driver: local
 
   # runner:

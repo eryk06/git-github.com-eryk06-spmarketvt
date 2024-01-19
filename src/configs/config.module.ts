@@ -17,11 +17,19 @@ import {
         PORT: Joi.number().default(4000).required(),
         SERVER_URL: Joi.string().required(),
         SESSION_SECRET: Joi.string().required(),
-        POSTGRES_HOST: Joi.string().default('postgres').required(),
-        POSTGRES_PORT: Joi.number().default(5432).required(),
-        POSTGRES_USER: Joi.string().default('postgres').required(),
-        POSTGRES_PASSWORD: Joi.string().default('postgres').required(),
-        POSTGRES_DB: Joi.string().default('spmarket').required(),
+        POSTGRESQL_MASTER_HOST: Joi.string()
+          .default('postgresql-master')
+          .required(),
+        POSTGRESQL_MASTER_PORT_NUMBER: Joi.number().default(5432).required(),
+        POSTGRESQL_USERNAME: Joi.string().default('postgres').required(),
+        POSTGRESQL_PASSWORD: Joi.string().default('postgres').required(),
+        POSTGRESQL_DATABASE: Joi.string().default('postgres').required(),
+        POSTGRESQL_REPLICATION_USER: Joi.string()
+          .default('repl_user')
+          .required(),
+        POSTGRESQL_REPLICATION_PASSWORD: Joi.string()
+          .default('repl_user')
+          .required(),
         REDIS_HOST: Joi.string().default('redis').required(),
         REDIS_PORT: Joi.number().default(6379).required(),
         THROTTLE_TTL: Joi.number().default(60000).required(),

@@ -1,4 +1,4 @@
-import { MetadataKey, TokenExpires } from '@/core/constants';
+import { TokenExpires } from '@/core/constants';
 import { IRedisType } from '@/core/interfaces';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable, NotFoundException } from '@nestjs/common';

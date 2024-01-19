@@ -1,14 +1,18 @@
-import {
-  POSTGRES_DB,
-  POSTGRES_HOST,
-  POSTGRES_PASSWORD,
-  POSTGRES_PORT,
-  POSTGRES_USER,
-} from '@/configs/environments';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from './strategy';
 import { ConfigService } from '@nestjs/config';
+import {
+  POSTGRESQL_DATABASE,
+  POSTGRESQL_MASTER_HOST,
+  POSTGRESQL_MASTER_PORT_NUMBER,
+  POSTGRESQL_PASSWORD,
+  POSTGRESQL_REPLICATION_PASSWORD,
+  POSTGRESQL_REPLICATION_USER,
+  POSTGRESQL_SLAVE_HOST,
+  POSTGRESQL_SLAVE_PORT_NUMBER,
+  POSTGRESQL_USERNAME,
+} from '../../environments';
 
 @Injectable()
 export class PostgresConfigService implements TypeOrmOptionsFactory {
@@ -19,16 +23,33 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
 
     const options: TypeOrmModuleOptions = {
       type: 'postgres',
-      host: this.configService.get<string>('POSTGRES_HOST') || POSTGRES_HOST,
-      port: this.configService.get<number>('POSTGRES_PORT')
-        ? +POSTGRES_PORT
-        : 5432,
-      username:
-        this.configService.get<string>('POSTGRES_USER') || POSTGRES_USER,
-      password:
-        this.configService.get<string>('POSTGRES_PASSWORD') ||
-        POSTGRES_PASSWORD,
-      database: this.configService.get<string>('POSTGRES_DB') || POSTGRES_DB,
+      replication: {
+        master: {
+          host: 'postgresql-master',
+          port: 5432,
+          username: 'postgres',
+          password: 'postgres',
+          database: 'postgres',
+        },
+        slaves: [
+          {
+            host: 'postgresql-slave',
+            port: 5432,
+            username: 'repl_user',
+            password: 'repl_user',
+            database: 'postgres',
+          },
+        ],
+      },
+      cache: {
+        type: 'redis',
+        options: {
+          socket: {
+            host: 'redis',
+            port: 6379,
+          },
+        },
+      },
       entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       namingStrategy: new SnakeNamingStrategy(),
@@ -36,9 +57,7 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       migrations: ['dist/database/migrations/*{.ts,.js}'],
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
-      nativeDriver: true,
       poolSize: 100,
-      verboseRetryLog: true,
     };
 
     // Use synchronize only in development environments

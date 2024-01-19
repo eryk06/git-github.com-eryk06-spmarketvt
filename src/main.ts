@@ -98,9 +98,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  const configService = app.get(ConfigService);
-  const PORT = configService.get<number>('PORT');
-
   return await app.listen(PORT);
 }
 

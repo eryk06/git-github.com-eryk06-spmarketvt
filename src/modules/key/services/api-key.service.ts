@@ -15,7 +15,7 @@ export class ApiKeyService {
     try {
       // const newKey = this.apiKeyRepository.create({
       //   key: crypto.randomBytes(64).toString('hex'),
-      //   pesmissions: ['0000']
+      //   pesmissions: ['0000'],
       // });
 
       // await this.apiKeyRepository.save(newKey);
