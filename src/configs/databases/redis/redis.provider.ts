@@ -14,7 +14,7 @@ export class RedisConfigService implements RedisModuleOptionsFactory {
     return {
       config: {
         host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
-        port: this.configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379,
+        port: this.configService.get<number>('REDIS_PORT') ? REDIS_PORT : 6379,
         enableAutoPipelining: true,
         autoResubscribe: true,
         reconnectOnError: () => 2,

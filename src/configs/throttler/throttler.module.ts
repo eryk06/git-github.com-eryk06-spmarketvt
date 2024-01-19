@@ -22,7 +22,7 @@ import { ConfigService } from '@nestjs/config';
         ],
         storage: new ThrottlerStorageRedisService({
           host: configService.get<string>('REDIS_HOST') || REDIS_HOST,
-          port: configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379,
+          port: configService.get<number>('REDIS_PORT') ? REDIS_PORT : 6379,
         }),
       }),
       inject: [ConfigService],

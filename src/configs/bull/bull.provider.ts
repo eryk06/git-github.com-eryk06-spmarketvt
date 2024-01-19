@@ -16,7 +16,7 @@ export class BullConfigService implements SharedBullConfigurationFactory {
     return {
       redis: {
         host: this.configService.get<string>('REDIS_HOST') || REDIS_HOST,
-        port: this.configService.get<number>('REDIS_PORT') ? +REDIS_PORT : 6379,
+        port: this.configService.get<number>('REDIS_PORT') ? REDIS_PORT : 6379,
       },
       prefix: 'queue',
       defaultJobOptions: {

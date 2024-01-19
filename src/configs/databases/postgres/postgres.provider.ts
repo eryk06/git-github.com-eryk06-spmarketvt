@@ -25,19 +25,19 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       type: 'postgres',
       replication: {
         master: {
-          host: 'postgresql-master',
-          port: 5432,
-          username: 'postgres',
-          password: 'postgres',
-          database: 'postgres',
+          host: POSTGRESQL_MASTER_HOST,
+          port: POSTGRESQL_MASTER_PORT_NUMBER || 5432,
+          username: POSTGRESQL_USERNAME,
+          password: POSTGRESQL_PASSWORD,
+          database: POSTGRESQL_DATABASE,
         },
         slaves: [
           {
             host: 'postgresql-slave',
-            port: 5432,
+            port: POSTGRESQL_MASTER_PORT_NUMBER || 5432,
             username: 'repl_user',
             password: 'repl_user',
-            database: 'postgres',
+            database: POSTGRESQL_DATABASE,
           },
         ],
       },
