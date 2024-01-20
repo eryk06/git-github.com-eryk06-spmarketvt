@@ -9,10 +9,6 @@ RUN --mount=type=cache,target=/apk-cache apk --no-cache add --virtual .build-dep
 # Install pnpm globally
 RUN npm install pnpm pm2 -g
 
-# Set PM2_PUBLIC_KEY and PM2_SECRET_KEY environment variables
-ENV PM2_PUBLIC_KEY 5dkhot0kvndntys
-ENV PM2_SECRET_KEY k9luueq6w355k4g
-
 # Copy only package files first to leverage Docker caching
 COPY --chown=node:node package*.json pnpm-lock.yaml ./
 
@@ -56,13 +52,6 @@ RUN pnpm install --prod --ignore-scripts --prefer-offline \
     && pnpm prune --prod \
     && rm -rf /app/.pnpm-store /app/.pnpm
 
-# Install Nginx
-RUN --mount=type=cache,target=/apk-cache apk --no-cache add nginx
-
-# Configure Nginx
-COPY nginx/templates/default.conf.template /etc/nginx/templates/default.conf.template
-COPY nginx/configuration/custom_proxy_setting.conf /etc/nginx/conf.d/custom_proxy_setting.conf
-
 # Labels and expose are fine as they are
 LABEL org.opencontainers.image.title="This is spmarketvt" \
       org.opencontainers.image.description="Spmarketvt" \
@@ -71,7 +60,12 @@ LABEL org.opencontainers.image.title="This is spmarketvt" \
       org.opencontainers.image.licenses="MIT"
 
 # Expose ports
-EXPOSE 4000 80
+EXPOSE 4000
+
+# Set PM2_PUBLIC_KEY and PM2_SECRET_KEY environment variables
+ENV PM2_PUBLIC_KEY 5dkhot0kvndntys
+ENV PM2_SECRET_KEY k9luueq6w355k4g
 
 # Start Nginx and your Node.js app with PM2
-CMD ["sh", "-c", "nginx -g 'daemon off;' & pm2-runtime ecosystem.config.js --env production"]
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
+# CMD ["sh", "-c", "nginx -g 'daemon off;' & pm2-runtime ecosystem.config.js --env production"]

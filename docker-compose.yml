@@ -31,18 +31,17 @@ services:
   #   networks:
   #     - spmarketvt-network
 
-  nginx:
-    image: nginx:alpine
-    restart: unless-stopped
-    volumes:
-      - ./nginx/templates:/etc/nginx/templates
-      - ./nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
-    ports:
-      - 80:80
-    networks:
-      - spmarketvt-network
-    depends_on:
-      - backend
+  # nginx:
+  #   image: nginx:alpine
+  #   restart: unless-stopped
+  #   container_name: nginx
+  #   volumes:
+  #     - ./nginx/templates:/etc/nginx/templates
+  #     - ./nginx/configuration/custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf
+  #   ports:
+  #     - 80:80
+  #   networks:
+  #     - spmarketvt-network
 
   postgresql-master:
     container_name: postgresql-master
@@ -100,14 +99,15 @@ services:
     command: pnpm dev
     depends_on:
       - postgresql-master
-      - redis
+      - redis-master
     volumes:
       - .:/app
     networks:
       - spmarketvt-network
 
-  redis:
-    container_name: redis
+  redis-master:
+    container_name: redis-master
+    hostname: redis
     image: redis:alpine
     restart: unless-stopped
     env_file:
@@ -115,7 +115,7 @@ services:
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
     volumes:
-      - redis:/data
+      - redis_master_data:/data
     networks:
       - spmarketvt-network
     healthcheck:
@@ -124,16 +124,31 @@ services:
       timeout: 10s
       retries: 5
 
+  redis-slave:
+    container_name: redis-slave
+    hostname: redis-slave
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - redis_slave_data:/data
+    networks:
+      - spmarketvt-network
+    depends_on:
+      - redis-master
+    ports:
+      - ${REDIS_SLAVE_PORT}:${REDIS_SLAVE_PORT}
+    command: redis-server --slaveof redis 6379
+
   redis-commander:
     container_name: redis-commander
     image: rediscommander/redis-commander:latest
     restart: unless-stopped
     environment:
-      REDIS_HOSTS: local:redis:6379
+      REDIS_HOSTS: local:redis-master:6379
     ports:
       - 8081:8081
     depends_on:
-      - redis
+      - redis-master
     networks:
       - spmarketvt-network
 
@@ -141,8 +156,6 @@ services:
     container_name: adminer
     image: adminer:latest
     restart: unless-stopped
-    env_file:
-      - .env
     ports:
       - ${ADMINER_PORT}:${ADMINER_PORT}
     depends_on:
@@ -160,9 +173,10 @@ volumes:
     driver: local
   adminer:
     driver: local
-  redis:
+  redis_master_data:
     driver: local
-
+  redis_slave_data:
+    driver: local
   # runner:
   #   name: runner
   #   driver: local

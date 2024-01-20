@@ -12,15 +12,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       ignoreExpiration: true,
       passReqToCallback: true,
       secretOrKeyProvider: (req, done) => {
-        const { authorization } = req.headers;
-
-        if (!authorization) {
-          return done(new UnauthorizedException('Unauthorized'), null);
-        }
-
+        const { authorization } = req.headers.tokens as any;
         const token = authorization.split(' ')[1];
-
-        return done(null, token);
+        done(null, token);
       },
     } as StrategyOptions);
   }
