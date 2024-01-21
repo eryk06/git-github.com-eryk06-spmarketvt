@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from './strategy';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import {
   POSTGRESQL_DATABASE,
   POSTGRESQL_MASTER_HOST,
   POSTGRESQL_MASTER_PORT_NUMBER,
   POSTGRESQL_PASSWORD,
-  POSTGRESQL_REPLICATION_PASSWORD,
-  POSTGRESQL_REPLICATION_USER,
-  POSTGRESQL_SLAVE_HOST,
-  POSTGRESQL_SLAVE_PORT_NUMBER,
   POSTGRESQL_USERNAME,
 } from '../../environments';
+import { SnakeNamingStrategy } from './strategy';
 
 @Injectable()
 export class PostgresConfigService implements TypeOrmOptionsFactory {
@@ -42,12 +38,10 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
         ],
       },
       cache: {
-        type: 'redis',
+        type: 'ioredis',
         options: {
-          socket: {
-            host: 'redis',
-            port: 6379,
-          },
+          host: 'redis',
+          port: 6379,
         },
       },
       entities: ['dist/**/*.entity{.ts,.js}'],

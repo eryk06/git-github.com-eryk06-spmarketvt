@@ -179,8 +179,5 @@
       "pnpm format",
       "git add ."
     ]
-  },
-  "optionalDependencies": {
-    "bufferutil": "^4.0.8"
   }
 }
