@@ -28,11 +28,10 @@ import {
 import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { useSwagger } from './app';
 import { join } from 'path';
-import { initializeTransactionalContext } from 'typeorm-transactional';
-import { ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
+import RedisStore from 'connect-redis';
 
 async function bootstrap() {
-  initializeTransactionalContext();
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
@@ -51,9 +50,25 @@ async function bootstrap() {
 
   const sessionOptions: session.SessionOptions = {
     secret: SESSION_SECRET,
+    store: new RedisStore({
+      client: new Redis({
+        host: 'redis',
+        port: 6379,
+      }),
+      ttl: 86400,
+    }),
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
   };
+
+  if (NODE_ENV === 'production') {
+    sessionOptions.cookie.secure = true;
+  }
 
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -75,10 +90,14 @@ async function bootstrap() {
   app.enableCors();
   app.use(
     compression({
-      filter: () => {
-        return true;
+      level: 6,
+      filter: (req, res) => {
+        if (req.headers['x-no-compression']) {
+          return false;
+        }
+        return compression.filter(req, res);
       },
-      threshold: 0,
+      threshold: 100 * 1024,
     }),
   );
   app.use(session(sessionOptions));

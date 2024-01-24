@@ -236,5 +236,10 @@ export class AuthService {
   }
 
   // verify email
-  async verifyEmail(token: string): Promise<any> {}
+  async verifyEmail(): Promise<any> {
+    try {
+    } catch (error) {
+      throw new HttpInternalServerError(error.message);
+    }
+  }
 }

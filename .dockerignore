@@ -10,6 +10,8 @@ dist
 .vscode
 Makefile
 README.md
+k8s
+k8s.yaml
 
 # git
 .git
