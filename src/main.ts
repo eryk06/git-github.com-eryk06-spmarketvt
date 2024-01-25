@@ -55,7 +55,6 @@ async function bootstrap() {
         host: 'redis',
         port: 6379,
       }),
-      ttl: 86400,
     }),
     resave: false,
     saveUninitialized: false,
