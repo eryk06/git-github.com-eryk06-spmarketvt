@@ -48,13 +48,12 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       autoLoadEntities: true,
       namingStrategy: new SnakeNamingStrategy(),
       subscribers: ['dist/**/*.subscriber{.ts,.js}'],
-      migrations: ['dist/database/migrations/*{.ts,.js}'],
+      migrations: ['src/configs/databases/migrations/*{.ts,.js}'],
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
       poolSize: 100,
     };
 
-    // Use synchronize only in development environments
     if (isDev) {
       Reflect.set(options, 'synchronize', true);
     }
