@@ -6,10 +6,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DayjsDate } from '@/core/decorators';
+import { uuidv7 } from 'uuidv7';
 
 export class BaseEntity extends TypeormBaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  uuid!: string;
+  uuid: string = uuidv7();
 
   @CreateDateColumn({
     name: 'created_at',
