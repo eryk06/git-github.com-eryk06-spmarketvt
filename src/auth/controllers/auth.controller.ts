@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
-import { Request, Response } from 'express';
 import { GoogleGuard, LocalAuthGuard } from '../guards';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { SessionSerializer } from '../serializer';
@@ -50,7 +49,7 @@ export class AuthController {
 
   @Get('google')
   @UseGuards(GoogleGuard)
-  async loginGoogle(@Req() request: Request): Promise<any> {
+  async loginGoogle(@Req() request: any): Promise<any> {
     return await this.authService.loginGoogle(request);
   }
 
@@ -67,14 +66,14 @@ export class AuthController {
   // }
 
   @Get('logout')
-  async logout(res: Response): Promise<any> {
+  async logout(res: any): Promise<any> {
     return await this.authService.logout();
   }
 
   @Get('csrf')
   async getCSRFToken(
-    @Req() request: Request,
-    @Res({ passthrough: true }) response: Response,
+    @Req() request: any,
+    @Res({ passthrough: true }) response: any,
   ) {
     const csrfToken = request.csrfToken();
 

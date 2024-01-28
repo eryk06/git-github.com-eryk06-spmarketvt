@@ -5,7 +5,7 @@ import {
   HttpStatus,
   RequestMethod,
 } from '@nestjs/common';
-import { CROSS_DOMAIN, PROJECT } from '@/app/app.config';
+import { CROSS_DOMAIN, PROJECT } from '@/apps/app.config';
 import { NODE_ENV } from '@/configs/environments';
 
 @Injectable()

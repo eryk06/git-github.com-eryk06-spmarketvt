@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
+import { AppModule } from './apps/app.module';
 import { NODE_ENV, PORT, SESSION_SECRET } from './configs/environments';
 import {
   ExpressAdapter,
@@ -26,7 +26,7 @@ import {
   ValidationPipe,
 } from './core';
 import { LoggerErrorInterceptor } from 'nestjs-pino';
-import { useSwagger } from './app';
+import { useSwagger } from './apps';
 import { join } from 'path';
 import Redis from 'ioredis';
 import RedisStore from 'connect-redis';

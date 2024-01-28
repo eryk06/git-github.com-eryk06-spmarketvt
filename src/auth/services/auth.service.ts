@@ -3,10 +3,9 @@ import { CryptoService, RedisService } from 'src/configs';
 import { ChangePasswordDTO, LoginDTO, RegisterDTO } from '../dtos';
 import { UserEntity } from '@/modules/user/entities';
 import { SetCookieRFToken } from '@/core/helpers';
-import { Request, Response } from 'express';
 import { HttpBadRequestError, HttpInternalServerError } from '@/core/errors';
 import { KeyService, UserService } from '@/modules';
-import * as crypto from 'node:crypto';
+import * as crypto from 'crypto';
 import { SpeakeasyUtil, getInfoData } from '../../core';
 import { createToken } from '../utils';
 import { JwtPayload } from '../interfaces';
@@ -167,7 +166,7 @@ export class AuthService {
   }
 
   // login google
-  async loginGoogle(req: Request): Promise<any> {
+  async loginGoogle(req: any): Promise<any> {
     try {
       if (!req.user) {
         throw new HttpBadRequestError('Invalid google account');

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Injectable, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { HttpResponseError, ResponseStatus } from '../interfaces';
 import * as TEXT from '../constants/text.constant';
-import { CROSS_DOMAIN } from '@/app/app.config';
+import { CROSS_DOMAIN } from '@/apps/app.config';
 import { NODE_ENV } from '@/configs/environments';
 
 @Injectable()
