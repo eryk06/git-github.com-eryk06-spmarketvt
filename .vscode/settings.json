@@ -21,6 +21,7 @@
     "rabbitmq",
     "golevelup",
     "mymaster",
-    "uuidv7"
+    "uuidv7",
+    "timestamptz"
   ]
 }

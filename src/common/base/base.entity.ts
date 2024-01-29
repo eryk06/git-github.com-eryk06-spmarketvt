@@ -13,29 +13,15 @@ export class BaseEntity extends TypeormBaseEntity {
   uuid: string = uuidv7();
 
   @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp without time zone',
-    default: () => `timezone('Asia/Ho_Chi_Minh', now())`,
     transformer: DayjsDate(),
   })
-  createdAt!: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp without time zone',
-    default: () => `timezone('Asia/Ho_Chi_Minh', now())`,
-    onUpdate: "timezone('Asia/Ho_Chi_Minh', now())",
     transformer: DayjsDate(),
   })
-  updatedAt!: Date;
+  updatedAt: Date;
 
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    type: 'timestamp without time zone',
-  })
-  deletedAt!: Date;
-
-  constructor() {
-    super();
-  }
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
