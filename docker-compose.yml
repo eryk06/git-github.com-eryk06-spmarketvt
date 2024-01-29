@@ -61,6 +61,8 @@ services:
       - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+      - TZ=${TZ}
+      - PGTZ=${PGTZ}
     healthcheck:
       test: ['CMD', 'pg_isready']
       interval: 30s
@@ -84,6 +86,8 @@ services:
       - POSTGRESQL_REPLICATION_USER=${POSTGRESQL_REPLICATION_USER}
       - POSTGRESQL_REPLICATION_PASSWORD=${POSTGRESQL_REPLICATION_PASSWORD}
       - POSTGRESQL_MASTER_PORT_NUMBER=${POSTGRESQL_MASTER_PORT_NUMBER}
+      - TZ=${TZ}
+      - PGTZ=${PGTZ}
 
   backend:
     container_name: backend

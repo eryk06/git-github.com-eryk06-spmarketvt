@@ -1,7 +1,6 @@
 import { BaseEntity } from 'src/common/base';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToOne, Unique } from 'typeorm';
 import { ROLE, STATUS } from '@/core';
-import { KeyEntity } from '../../key';
 
 @Entity({
   name: 'user',
@@ -10,12 +9,19 @@ import { KeyEntity } from '../../key';
   },
 })
 export class UserEntity extends BaseEntity {
-  @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+  @Unique(['email'])
+  @Index()
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+  })
   email: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
   password: string;
 
+  @Index()
   @Column({
     type: 'enum',
     enum: ROLE,
@@ -23,15 +29,29 @@ export class UserEntity extends BaseEntity {
   })
   role: ROLE;
 
-  @Column({ type: 'enum', enum: STATUS, default: STATUS.ACTIVE })
+  @Index()
+  @Column({
+    type: 'enum',
+    enum: STATUS,
+    default: STATUS.ACTIVE,
+  })
   status: STATUS;
 
-  @Column({ type: 'varchar', length: 255, nullable: true, default: null })
+  @Index()
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    default: null,
+    charset: 'UTF8',
+  })
   fullname: string;
 
+  @Index()
   @Column({ type: 'varchar', length: 255, nullable: true, default: null })
   address: string;
 
+  @Index()
   @Column({ type: 'varchar', length: 255, nullable: true, default: null })
   avatar: string;
 

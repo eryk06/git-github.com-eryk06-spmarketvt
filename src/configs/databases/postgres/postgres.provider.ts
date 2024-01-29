@@ -52,6 +52,9 @@ export class PostgresConfigService implements TypeOrmOptionsFactory {
       logging: ['error', 'warn'],
       keepConnectionAlive: true,
       poolSize: 100,
+      extra: {
+        charset: 'UTF8',
+      },
     };
 
     if (isDev) {
