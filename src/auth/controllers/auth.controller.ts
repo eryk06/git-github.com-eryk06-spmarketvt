@@ -23,12 +23,13 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @UseInterceptors(TransformInterceptor<RegisterDTO>)
   async register(@Body() registerDTO: RegisterDTO): Promise<any> {
     return await this.authService.register(registerDTO);
   }
 
   @Post('login')
-  @UseInterceptors(TransformInterceptor)
+  @UseInterceptors(TransformInterceptor<LoginDTO>)
   @UseGuards(LocalAuthGuard, ThrottlerGuard)
   async login(
     @Body() loginDTO: LoginDTO,

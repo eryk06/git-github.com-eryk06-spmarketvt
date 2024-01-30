@@ -97,7 +97,7 @@ async function bootstrap() {
         }
         return compression.filter(req, res);
       },
-      threshold: 100 * 1024,
+      threshold: 0,
     }),
   );
   app.use(session(sessionOptions));

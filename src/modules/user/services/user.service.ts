@@ -33,8 +33,8 @@ export class UserService extends BaseService<UserEntity> {
     }
   }
 
-  // get all users
-  async getAllUser(): Promise<UserEntity[]> {
+  // find all users
+  async findAllUsers(): Promise<UserEntity[]> {
     try {
       const slaveQueryRunner =
         this.userRepository.manager.connection.createQueryRunner('slave');
