@@ -1,4 +1,4 @@
-name: SonarCloud build
+name: SonarCloud Test
 
 on:
   push:
