@@ -45,7 +45,7 @@ export class UserEntity extends BaseEntity {
     default: null,
     charset: 'UTF8',
   })
-  fullname: string;
+  full_name: string;
 
   @Index()
   @Column({ type: 'varchar', length: 255, nullable: true, default: null })

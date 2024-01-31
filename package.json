@@ -83,6 +83,7 @@
     "nestjs-cls": "^3.6.0",
     "nestjs-i18n": "^10.4.0",
     "nestjs-pino": "^3.5.0",
+    "nestjs-rbac": "^1.10.0",
     "nestjs-throttler-storage-redis": "^0.4.1",
     "nestjs-typeorm-paginate": "^4.0.4",
     "nodemailer": "^6.9.8",
