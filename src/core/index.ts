@@ -8,7 +8,6 @@ export * from './decorators';
 export * from './interfaces';
 export * from './pipes';
 export * from './errors';
-export * from './guards';
+// export * from './guards';
 export * from './enum';
-export * from './shared';
 export * from './utils';

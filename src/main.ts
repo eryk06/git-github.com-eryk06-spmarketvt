@@ -25,7 +25,6 @@ import {
   TypeormExceptionFilter,
   ValidationPipe,
 } from './core';
-import { LoggerErrorInterceptor } from 'nestjs-pino';
 import { useSwagger } from './apps';
 import { join } from 'path';
 import Redis from 'ioredis';
@@ -79,7 +78,6 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new TimeoutInterceptor(),
-    new LoggerErrorInterceptor(),
     new ResponseTransformInterceptor(),
   );
 

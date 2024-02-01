@@ -1,41 +1,93 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PARAMS_PROVIDER_TOKEN, Params, PinoLogger } from 'nestjs-pino';
+import * as winston from 'winston';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import { uuidv7 } from 'uuidv7';
 
-@Injectable()
-export class LoggerService extends PinoLogger {
-  constructor(@Inject(PARAMS_PROVIDER_TOKEN) params: Params) {
-    super({});
+export class LoggerService {
+  constructor(private readonly logger: winston.Logger) {
+    const formatPrint = winston.format.printf(
+      ({ level, message, context, requestId, timestamp, metadata }) => {
+        return `${timestamp} - [${level}] - ${context} - ${requestId} - ${message} - ${JSON.stringify(metadata)}`;
+      },
+    );
+
+    this.logger = winston.createLogger({
+      format: winston.format.combine(
+        winston.format.timestamp({
+          format: 'YYYY-MM-DD HH:mm:ss',
+        }),
+        formatPrint,
+      ),
+      transports: [
+        new winston.transports.Console(),
+        new DailyRotateFile({
+          dirname: 'src/logs',
+          filename: 'application-%DATE%.info.log',
+          datePattern: 'YYYY-MM-DD-HH',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
+          format: winston.format.combine(
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
+            formatPrint,
+          ),
+          level: 'info',
+        }),
+        new DailyRotateFile({
+          dirname: 'src/logs',
+          filename: 'application-%DATE%.error.log',
+          datePattern: 'YYYY-MM-DD-HH',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
+          format: winston.format.combine(
+            winston.format.timestamp({
+              format: 'YYYY-MM-DD HH:mm:ss',
+            }),
+            formatPrint,
+          ),
+          level: 'error',
+        }),
+      ],
+    });
   }
 
-  trace(message: any, ...optionalParams: any[]) {
-    this.debug(message, ...optionalParams);
+  commonParams(params: any) {
+    let context: any, req: any, metadata: any;
+
+    if (!Array.isArray(params)) {
+      context = params;
+    } else {
+      [context, req, metadata] = params;
+    }
+
+    const requestId = req?.requestId || uuidv7();
+
+    return { context, requestId, metadata };
   }
 
-  debug(message: any, ...optionalParams: any[]) {
-    this.logger.debug(message, ...optionalParams);
+  log(message: string, params: any) {
+    const paramLog = this.commonParams(params);
+    const logObject = Object.assign(
+      {
+        message,
+      },
+      paramLog,
+    );
+
+    this.logger.log(logObject as any);
   }
 
-  log(message: any, ...optionalParams: any[]) {
-    this.logger.info(message, ...optionalParams);
-  }
+  error(message: string, params: any) {
+    const paramLog = this.commonParams(params);
+    const logObject = Object.assign(
+      {
+        message,
+      },
+      paramLog,
+    );
 
-  info(message: any, ...optionalParams: any[]) {
-    this.logger.info(message, ...optionalParams);
-  }
-
-  warn(message: any, ...optionalParams: any[]) {
-    this.logger.warn(message, ...optionalParams);
-  }
-
-  error(message: any, ...optionalParams: any[]) {
-    this.logger.error(message, ...optionalParams);
-  }
-
-  fatal(message: any, ...optionalParams: any[]) {
-    this.logger.fatal(message, ...optionalParams);
-  }
-
-  flush() {
-    this.logger.flush();
+    this.logger.error(logObject as any);
   }
 }

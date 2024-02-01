@@ -7,7 +7,6 @@ import {
   DiscordModule,
   FirebaseModule,
   HealthModule,
-  LoggerModule,
   MailModule,
   RedisModule,
   StaticModule,
@@ -18,8 +17,8 @@ import {
   BotMiddleware,
   CorsMiddleware,
   CsurfMiddleware,
-  LoggerMiddleware,
   OriginMiddleware,
+  RBAC,
 } from '../core';
 import { BullModule } from '../configs/bull';
 import { SearchModule } from '../configs/search';
@@ -31,6 +30,7 @@ import { ApiKeyEntity, ApiKeyService, KeyModule } from '../modules/key';
 import { ApiKeyMiddleware } from '../core/middlewares/api-key.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionMiddleware } from '../core/middlewares/permission.middleware';
+import { RBAcModule } from 'nestjs-rbac';
 
 @Module({
   imports: [
@@ -50,6 +50,8 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
       dest: './upload',
     }),
 
+    RBAcModule.forRoot(RBAC),
+
     // CONFIGS
     ConfigModule,
     PostgresModule,
@@ -59,7 +61,6 @@ import { PermissionMiddleware } from '../core/middlewares/permission.middleware'
     SearchModule,
     ThrottlerModule,
     HealthModule,
-    LoggerModule,
     CloudinaryModule,
     MailModule,
     FirebaseModule,
@@ -85,7 +86,6 @@ export class AppModule implements NestModule {
     });
     consumer
       .apply(
-        LoggerMiddleware,
         OriginMiddleware,
         CorsMiddleware,
         ApiKeyMiddleware,

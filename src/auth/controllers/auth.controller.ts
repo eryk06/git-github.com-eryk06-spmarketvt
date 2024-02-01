@@ -54,10 +54,10 @@ export class AuthController {
     return await this.authService.loginGoogle(request);
   }
 
-  @Get('refresh-token')
-  async refreshToken(@Req() request: Request): Promise<any> {
-    return await this.authService.refreshToken();
-  }
+  // @Get('refresh-token')
+  // async refreshToken(@Req() request: Request): Promise<any> {
+  //   return await this.authService.refreshToken();
+  // }
 
   // @Post('change-password')
   // @HttpCode(200)
@@ -66,10 +66,10 @@ export class AuthController {
   //   return await this.authService.changePassword(changePasswordDTO);
   // }
 
-  @Get('logout')
-  async logout(res: any): Promise<any> {
-    return await this.authService.logout();
-  }
+  // @Get('logout')
+  // async logout(res: any): Promise<any> {
+  //   return await this.authService.logout();
+  // }
 
   @Get('csrf')
   async getCSRFToken(
